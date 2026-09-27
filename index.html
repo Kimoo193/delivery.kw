@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Delivery.KW</title>
+<meta name="description" content="Delivery.KW – أسرع خدمة توصيل طلبات في الكويت. نوصل جميع مناطق الكويت، أسعار التوصيل تبدأ من 2 دينار. اطلب عبر واتساب 99454818.">
+<meta property="og:title" content="Delivery.KW | توصيل طلبات في الكويت">
+<meta property="og:description" content="نوصل جميع مناطق الكويت. أسعار تبدأ من 2 د.ك. اطلب الحين عبر واتساب 99454818">
+<meta property="og:image" content="assets/offer-2kd.jpg">
+<meta name="theme-color" content="#0A1733">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Readex+Pro:wght@300;400;500;700&display=swap">
+<style>
+  :root{
+    color-scheme: dark;
+    --night:#0A1733;
+    --navy:#10265E;
+    --royal:#1B3C9A;
+    --gold:#E4B447;
+    --gold-soft:#F5DC93;
+    --sand:#F4EEE1;
+    --mist:#AEB9D6;
+    --line:rgba(228,180,71,.28);
+    --wa:#25D366;
+    --wa-ink:#063A1C;
+    --display:"Reem Kufi","Readex Pro",Tahoma,sans-serif;
+    --body:"Readex Pro",Tahoma,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{
+    margin:0;background:var(--night);color:var(--sand);
+    font-family:var(--body);font-size:16px;line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+  .wrap{max-width:1120px;margin-inline:auto;padding-inline:20px}
+  h1,h2,h3{font-family:var(--display);line-height:1.25;margin:0;text-wrap:balance}
+  .eyebrow{font-size:.82rem;color:var(--gold);letter-spacing:.02em;font-weight:500}
+  .num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;font-family:var(--body)}
+
+  /* top bar */
+  .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;
+    background:rgba(10,23,51,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line)}
+  .bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .brand img{width:42px;height:42px;border-radius:50%}
+  .brand b{font-family:var(--body);font-weight:700;font-size:1.1rem;letter-spacing:.01em;direction:ltr}
+  .brand b span{color:var(--gold)}
+  .bar nav{display:flex;gap:18px;font-size:.92rem;color:var(--mist)}
+  .bar nav a{text-decoration:none}
+  .bar nav a:hover{color:var(--gold-soft)}
+  @media (max-width:760px){.bar nav{display:none}}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    padding:14px 22px;border-radius:14px;font-weight:700;font-size:1rem;text-decoration:none;
+    border:0;cursor:pointer;font-family:var(--body);transition:transform .15s ease, box-shadow .15s ease}
+  .btn:hover{transform:translateY(-2px)}
+  .btn svg{width:22px;height:22px;flex:none}
+  .btn-wa{background:var(--wa);color:var(--wa-ink);box-shadow:0 10px 28px -10px rgba(37,211,102,.7)}
+  .btn-ig{background:transparent;color:var(--sand);border:1.5px solid var(--line)}
+  .btn-ig:hover{border-color:var(--gold)}
+  .btn-sm{padding:9px 14px;font-size:.9rem;border-radius:11px}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;
+    background:
+      radial-gradient(900px 480px at 85% -10%, rgba(27,60,154,.85), transparent 60%),
+      radial-gradient(600px 400px at 0% 110%, rgba(228,180,71,.12), transparent 60%),
+      var(--night)}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding-block:56px 64px}
+  .hero h1{font-size:clamp(2.1rem,5.2vw,3.7rem);font-weight:700}
+  .hero h1 em{font-style:normal;color:var(--gold);display:block}
+  .hero p.lead{color:var(--mist);font-size:1.12rem;max-width:34ch;margin:18px 0 26px}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px}
+  .phone{margin-top:22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--mist);font-size:.95rem}
+  .phone .num{font-size:1.5rem;font-weight:700;color:var(--gold-soft);letter-spacing:.04em;user-select:all}
+  .copy{background:none;border:1px solid var(--line);color:var(--mist);border-radius:9px;padding:4px 10px;font:inherit;font-size:.82rem;cursor:pointer}
+  .copy:hover{color:var(--sand);border-color:var(--gold)}
+  .hero-art{position:relative}
+  .hero-art .photo{border-radius:28px 28px 28px 120px;overflow:hidden;border:1px solid var(--line);
+    box-shadow:0 40px 80px -30px rgba(0,0,0,.7)}
+  .hero-art .photo img{width:100%;aspect-ratio:760/909;object-fit:cover}
+  .seal{position:absolute;inset-inline-end:-18px;bottom:-22px;width:132px;height:132px;border-radius:50%;
+    box-shadow:0 18px 40px -12px rgba(0,0,0,.8);animation:float 6s ease-in-out infinite}
+  @keyframes float{50%{transform:translateY(-8px) rotate(-3deg)}}
+  .price-tag{position:absolute;inset-inline-start:-14px;top:28px;background:var(--gold);color:var(--night);
+    border-radius:16px;padding:10px 16px;line-height:1.2;box-shadow:0 18px 40px -14px rgba(0,0,0,.7)}
+  .price-tag small{display:block;font-size:.78rem;font-weight:500}
+  .price-tag strong{font-family:var(--display);font-size:1.7rem}
+  @media (max-width:860px){
+    .hero .wrap{grid-template-columns:1fr;gap:40px;padding-block:36px 56px}
+    .hero-art{max-width:440px;margin-inline:auto;width:100%}
+    .seal{width:104px;height:104px;inset-inline-end:-6px}
+    .price-tag{inset-inline-start:-4px}
+  }
+
+  /* promise strip */
+  .strip{border-block:1px solid var(--line);background:linear-gradient(90deg,var(--navy),#0D1F4C 50%,var(--navy))}
+  .strip ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr)}
+  .strip li{display:flex;align-items:center;gap:12px;padding:22px 18px;border-inline-start:1px solid var(--line)}
+  .strip li:first-child{border-inline-start:0}
+  .strip .ic{width:46px;height:46px;border-radius:50%;flex:none;display:grid;place-items:center;
+    border:1.5px solid var(--gold);color:var(--gold)}
+  .strip .ic svg{width:22px;height:22px}
+  .strip b{display:block;font-family:var(--display);font-size:1.15rem;color:var(--gold-soft)}
+  .strip span{font-size:.86rem;color:var(--mist);line-height:1.5}
+  @media (max-width:860px){.strip ul{grid-template-columns:1fr 1fr}.strip li:nth-child(3){border-inline-start:0}.strip li:nth-child(n+3){border-top:1px solid var(--line)}}
+  @media (max-width:420px){.strip li{padding:16px 10px;gap:8px}.strip .ic{width:38px;height:38px}}
+
+  section.block{padding-block:72px}
+  .head{display:flex;flex-direction:column;gap:8px;margin-bottom:32px;max-width:640px}
+  .head h2{font-size:clamp(1.7rem,3.6vw,2.5rem)}
+  .head p{margin:0;color:var(--mist)}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
+  .step{position:relative;padding:26px 22px 24px;border-radius:20px;background:var(--navy);border:1px solid rgba(174,185,214,.12)}
+  .step::before{counter-increment:s;content:counter(s);font-family:var(--display);font-weight:700;
+    font-size:2.8rem;line-height:1;color:var(--gold);display:block;margin-bottom:12px}
+  .step h3{font-size:1.25rem;margin-bottom:6px}
+  .step p{margin:0;color:var(--mist);font-size:.95rem}
+  @media (max-width:760px){.steps{grid-template-columns:1fr}}
+
+  /* order builder */
+  .order{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch}
+  .card{border-radius:24px;border:1px solid var(--line);background:linear-gradient(160deg,#122B6A,#0C1D47);padding:28px}
+  .card h3{font-size:1.45rem;margin-bottom:4px}
+  .card p.sub{margin:0 0 18px;color:var(--mist);font-size:.93rem}
+  .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+  .field label{font-size:.88rem;color:var(--gold-soft)}
+  .field input,.field select,.field textarea{
+    font:inherit;font-size:.98rem;color:var(--sand);background:rgba(10,23,51,.7);
+    border:1px solid rgba(174,185,214,.25);border-radius:12px;padding:11px 14px;width:100%}
+  .field textarea{resize:vertical;min-height:84px}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:520px){.row2{grid-template-columns:1fr}}
+  .card .btn-wa{width:100%;margin-top:6px}
+  .note{font-size:.8rem;color:var(--mist);margin-top:10px}
+  .offer{border-radius:24px;overflow:hidden;border:1px solid var(--line);position:relative}
+  .offer img{width:100%;height:100%;object-fit:cover;aspect-ratio:1}
+  @media (max-width:860px){.order{grid-template-columns:1fr}.offer{max-width:520px}}
+
+  /* areas */
+  .areas{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .area{padding:18px 20px;border-radius:16px;border:1px solid rgba(174,185,214,.14);background:rgba(16,38,94,.5)}
+  .area b{font-family:var(--display);font-size:1.15rem;color:var(--gold-soft);display:flex;align-items:center;gap:8px}
+  .area b svg{width:16px;height:16px;color:var(--gold)}
+  .area span{display:block;color:var(--mist);font-size:.88rem;line-height:1.6;margin-top:4px}
+  @media (max-width:860px){.areas{grid-template-columns:1fr 1fr}}
+  @media (max-width:480px){.areas{grid-template-columns:1fr}}
+
+  /* business */
+  .biz{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;
+    border-radius:28px;padding:36px;background:var(--gold);color:var(--night)}
+  .biz h2{font-size:clamp(1.6rem,3.4vw,2.3rem)}
+  .biz p{margin:10px 0 0;max-width:48ch}
+  .biz ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-weight:500}
+  .biz li{display:flex;gap:10px;align-items:flex-start}
+  .biz li svg{width:20px;height:20px;flex:none;margin-top:4px}
+  .biz .btn{background:var(--night);color:var(--gold-soft);margin-top:18px}
+  @media (max-width:760px){.biz{grid-template-columns:1fr;padding:26px 22px}}
+
+  /* gallery */
+  .gallery{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;align-items:flex-start;
+    scrollbar-color:var(--royal) transparent}
+  .gallery figure{margin:0;flex:0 0 min(240px,70%);scroll-snap-align:start;border-radius:18px;overflow:hidden;border:1px solid rgba(174,185,214,.15)}
+  .gallery img{width:100%;height:auto;aspect-ratio:9/16;object-fit:cover}
+  .gallery figure.sq img{aspect-ratio:9/16}
+
+  /* final */
+  .final{text-align:center;padding-block:72px 96px;
+    background:radial-gradient(700px 360px at 50% 0%, rgba(27,60,154,.7), transparent 70%)}
+  .final img{width:110px;height:110px;border-radius:50%;margin:0 auto 18px}
+  .final h2{font-size:clamp(1.8rem,4vw,2.7rem)}
+  .final p{color:var(--mist);margin:10px auto 26px;max-width:40ch}
+  .final .cta-row{justify-content:center}
+  footer{border-top:1px solid var(--line);padding-block:22px calc(22px + 72px);color:var(--mist);font-size:.85rem}
+  footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+  /* floating whatsapp */
+  .fab{position:fixed;inset-inline-start:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:30;
+    width:60px;height:60px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;
+    box-shadow:0 12px 30px -8px rgba(37,211,102,.8)}
+  .fab svg{width:32px;height:32px}
+  .fab::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--wa);animation:ping 2.4s ease-out infinite}
+  @keyframes ping{from{transform:scale(1);opacity:.8}to{transform:scale(1.6);opacity:0}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.69 8.24-8.23 8.24Zm4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M7.5 2.75h9a4.75 4.75 0 0 1 4.75 4.75v9a4.75 4.75 0 0 1-4.75 4.75h-9A4.75 4.75 0 0 1 2.75 16.5v-9A4.75 4.75 0 0 1 7.5 2.75Z"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.2 4.2L19 7"/></symbol>
+</svg>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Delivery.KW">
+      <img src="assets/logo.png" alt="" width="42" height="42">
+      <b>Delivery<span>.KW</span></b>
+    </a>
+    <nav aria-label="أقسام الصفحة">
+      <a href="#how">طريقة الطلب</a>
+      <a href="#order">اطلب الحين</a>
+      <a href="#areas">مناطق التوصيل</a>
+      <a href="#business">للمشاريع</a>
+    </nav>
+    <a class="btn btn-wa btn-sm js-wa" href="https://wa.me/96599454818" target="_blank" rel="noopener">
+      <svg aria-hidden="true"><use href="#i-wa"/></svg>واتساب
+    </a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">مندوب توصيل طلبات · الكويت 🇰🇼</p>
+        <h1>أسرع خدمة توصيل طلبات <em>في الكويت</em></h1>
+        <p class="lead">نستلم طلبك من الباب ونسلّمه للباب، في كل مناطق الكويت. أسعار في متناول الجميع، ودفع كاش أو أونلاين.</p>
+        <div class="cta-row">
+          <a class="btn btn-wa js-wa" href="https://wa.me/96599454818" target="_blank" rel="noopener">
+            <svg aria-hidden="true"><use href="#i-wa"/></svg>اطلب عبر واتساب
+          </a>
+          <a class="btn btn-ig" href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener">
+            <svg aria-hidden="true"><use href="#i-ig"/></svg>تابعنا على انستجرام
+          </a>
+        </div>
+        <div class="phone">
+          <span>للتواصل معنا</span>
+          <span class="num" id="phone">99454818</span>
+          <button class="copy" type="button" id="copyPhone">نسخ الرقم</button>
+          <a class="copy" href="tel:+96599454818" style="text-decoration:none">اتصال</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="photo"><img src="assets/courier.jpg" alt="مندوب Delivery.KW يسلّم طلب عند باب العميل" width="760" height="909"></div>
+        <div class="price-tag"><small>أسعار التوصيل تبدأ من</small><strong>2 د.ك</strong></div>
+        <img class="seal" src="assets/logo.png" alt="شعار Delivery.KW" width="132" height="132">
+      </div>
+    </div>
+  </section>
+
+  <div class="strip">
+    <ul class="wrap">
+      <li><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13" cy="13" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M13 9v4l2.5 2M3 8h4M2 12h3M3 16h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><div><b>سرعة</b><span>استلام وتسليم بنفس اليوم</span></div></li>
+      <li><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12l4-4 4 3 3-2 7 5-3 3-3-2-2 2-4-3-3 2Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div><b>التزام</b><span>بالمواعيد وبكلمتنا</span></div></li>
+      <li><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/></svg></span><div><b>خبرة</b><span>نعرف مناطق الكويت شارع شارع</span></div></li>
+      <li><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 4.5 5.5v6c0 4.6 3.2 8.4 7.5 10 4.3-1.6 7.5-5.4 7.5-10v-6Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m8.5 12 2.4 2.4L15.8 9.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>دقة وأمانة</b><span>طلبك يوصل مثل ما طلع</span></div></li>
+    </ul>
+  </div>
+
+  <section class="block" id="how">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">طريقة الطلب</p>
+        <h2>ثلاث خطوات ويوصل طلبك</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><h3>راسلنا على واتساب</h3><p>أرسل موقع الاستلام وموقع التسليم ونوع الطلب على الرقم <span class="num">99454818</span>.</p></div>
+        <div class="step"><h3>نأكد السعر والوقت</h3><p>نرد عليك بسعر التوصيل ووقت وصول المندوب. الأسعار تبدأ من 2 دينار.</p></div>
+        <div class="step"><h3>نستلم ونسلّم</h3><p>المندوب يستلم من الباب ويسلّم للباب، والدفع كاش أو أونلاين.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="order" style="padding-top:0">
+    <div class="wrap order">
+      <form class="card" id="orderForm" novalidate>
+        <h3>جهّز طلبك</h3>
+        <p class="sub">عبّي البيانات ونفتح لك واتساب برسالة جاهزة.</p>
+        <div class="row2">
+          <div class="field">
+            <label for="from">منطقة الاستلام</label>
+            <input id="from" name="from" placeholder="مثال: السالمية" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="to">منطقة التسليم</label>
+            <input id="to" name="to" placeholder="مثال: الجهراء" autocomplete="off">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="kind">نوع الطلب</label>
+            <select id="kind" name="kind">
+              <option>طلب / غرض شخصي</option>
+              <option>طلب من متجر أو مشروع</option>
+              <option>أكل</option>
+              <option>مستندات وأوراق</option>
+              <option>أخرى</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="pay">طريقة الدفع</label>
+            <select id="pay" name="pay">
+              <option>كاش</option>
+              <option>أونلاين</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="notes">ملاحظات</label>
+          <textarea id="notes" name="notes" placeholder="الوقت المناسب، رقم المستلم، أي تفاصيل"></textarea>
+        </div>
+        <a class="btn btn-wa" id="sendOrder" href="https://wa.me/96599454818" target="_blank" rel="noopener">
+          <svg aria-hidden="true"><use href="#i-wa"/></svg>أرسل الطلب على واتساب
+        </a>
+        <p class="note">الرسالة تنفتح في واتساب ولا تنرسل إلا لما تضغط إرسال بنفسك.</p>
+      </form>
+      <div class="offer">
+        <img src="assets/offer-2kd.jpg" alt="عرض خاص: أسعار التوصيل تبدأ من دينارين" width="900" height="900">
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="areas" style="padding-top:0">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">مناطق التوصيل</p>
+        <h2>نوصل جميع مناطق الكويت</h2>
+        <p>من الجهراء للأحمدي، ونغطي المحافظات الست كلها.</p>
+      </div>
+      <div class="areas">
+        <div class="area"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>العاصمة</b><span>مدينة الكويت، الشويخ، الدسمة، كيفان، الشامية</span></div>
+        <div class="area"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>حولي</b><span>السالمية، الجابرية، حولي، الرميثية، مشرف</span></div>
+        <div class="area"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>الفروانية</b><span>الفروانية، خيطان، جليب الشيوخ، العارضية، الرابية</span></div>
+        <div class="area"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>مبارك الكبير</b><span>صباح السالم، القرين، العدان، المسيلة، أبو فطيرة</span></div>
+        <div class="area"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>الأحمدي</b><span>الفحيحيل، المنقف، المهبولة، الصباحية، صباح الأحمد</span></div>
+        <div class="area"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>الجهراء</b><span>الجهراء، سعد العبدالله، القصر، العيون، النسيم</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="business" style="padding-top:0">
+    <div class="wrap">
+      <div class="biz">
+        <div>
+          <h2>أسعار خاصة للمشاريع الصغيرة والمتوسطة</h2>
+          <p>عندك متجر انستجرام أو مشروع من البيت؟ خلّنا نوصل طلباتك لعملائك يوميًا بسعر ثابت ومندوب تعرفه.</p>
+          <a class="btn js-wa-biz" href="https://wa.me/96599454818" target="_blank" rel="noopener">
+            <svg aria-hidden="true"><use href="#i-wa"/></svg>اسأل عن أسعار المشاريع
+          </a>
+        </div>
+        <ul>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg>توصيل يومي أو حسب الطلب</li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg>تحصيل المبلغ كاش من العميل</li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg>تغطية كل المحافظات</li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg>تواصل مباشر مع المندوب</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">من صفحتنا على انستجرام</p>
+        <h2>@td.delivery1</h2>
+      </div>
+      <div class="gallery" tabindex="0" aria-label="إعلانات Delivery.KW">
+        <figure><img src="assets/poster-blue.jpg" alt="إعلان Delivery.KW باللون الأزرق" width="720" height="1280"></figure>
+        <figure><img src="assets/poster-red.jpg" alt="إعلان Delivery.KW باللون الأحمر" width="720" height="1080"></figure>
+        <figure><img src="assets/poster-map.jpg" alt="إعلان خريطة الكويت ومناطق التوصيل" width="720" height="1280"></figure>
+        <figure><img src="assets/door-to-door.jpg" alt="من الباب إلى الباب" width="1000" height="1000"></figure>
+        <figure><img src="assets/poster-green.jpg" alt="إعلان Delivery.KW باللون الأخضر" width="720" height="1280"></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap">
+      <img src="assets/logo.png" alt="" width="110" height="110">
+      <h2>طلبك جاهز؟ نوصل فورًا</h2>
+      <p>راسلنا على واتساب أو تابع عروضنا الجديدة على انستجرام.</p>
+      <div class="cta-row">
+        <a class="btn btn-wa js-wa" href="https://wa.me/96599454818" target="_blank" rel="noopener">
+          <svg aria-hidden="true"><use href="#i-wa"/></svg>واتساب <span class="num">99454818</span>
+        </a>
+        <a class="btn btn-ig" href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener">
+          <svg aria-hidden="true"><use href="#i-ig"/></svg>td.delivery1
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr">2026</span> Delivery.KW · توصيل طلبات في الكويت</span>
+    <span>واتساب <span class="num">+965 99454818</span></span>
+  </div>
+</footer>
+
+<a class="fab js-wa" href="https://wa.me/96599454818" target="_blank" rel="noopener" aria-label="تواصل عبر واتساب">
+  <svg aria-hidden="true"><use href="#i-wa"/></svg>
+</a>
+
+<script>
+(function(){
+  var WA = 'https://wa.me/96599454818?text=';
+  var hello = 'السلام عليكم، أبي أطلب توصيل مع Delivery.KW';
+  document.querySelectorAll('.js-wa').forEach(function(a){ a.href = WA + encodeURIComponent(hello); });
+  document.querySelectorAll('.js-wa-biz').forEach(function(a){
+    a.href = WA + encodeURIComponent('السلام عليكم، عندي مشروع وأبي أعرف أسعار التوصيل الخاصة للمشاريع');
+  });
+
+  var f = document.getElementById('orderForm'), send = document.getElementById('sendOrder');
+  function v(id){ return document.getElementById(id).value.trim(); }
+  function build(){
+    var lines = ['السلام عليكم، أبي أطلب توصيل 🚗',
+      '📍 الاستلام: ' + (v('from') || '—'),
+      '🏁 التسليم: ' + (v('to') || '—'),
+      '📦 نوع الطلب: ' + v('kind'),
+      '💳 الدفع: ' + v('pay')];
+    if (v('notes')) lines.push('📝 ملاحظات: ' + v('notes'));
+    send.href = WA + encodeURIComponent(lines.join('\n'));
+  }
+  f.addEventListener('input', build); f.addEventListener('change', build);
+  f.addEventListener('submit', function(e){ e.preventDefault(); });
+  build();
+
+  var btn = document.getElementById('copyPhone');
+  btn.addEventListener('click', function(){
+    var done = function(){ btn.textContent = 'تم النسخ'; setTimeout(function(){ btn.textContent = 'نسخ الرقم'; }, 1800); };
+    var fallback = function(){ var r = document.createRange(); r.selectNodeContents(document.getElementById('phone'));
+      var s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+    try { navigator.clipboard.writeText('99454818').then(done, fallback); } catch(e){ fallback(); }
+  });
+  document.getElementById('yr').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
