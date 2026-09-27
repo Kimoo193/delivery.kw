@@ -6,9 +6,10 @@
 <title>توصيل طلبات الكويت 24 ساعة | Delivery.KW مندوب توصيل</title>
 <meta name="description" content="Delivery.KW خدمة توصيل طلبات في الكويت 24 ساعة. نوصل جميع مناطق الكويت: ملابس، هدايا، إكسسوارات ومطاعم. أقل الأسعار وأسرع خدمة. اطلب عبر واتساب 99454818.">
 <meta name="keywords" content="توصيل الكويت, توصيل طلبات الكويت, مندوب توصيل الكويت, توصيل 24 ساعة الكويت, توصيل هدايا الكويت, توصيل ملابس الكويت, توصيل مطاعم الكويت, delivery kuwait, Delivery.KW">
-<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://delivery-kw.pages.dev/">
 <link rel="alternate" hreflang="ar-kw" href="https://delivery-kw.pages.dev/">
+<link rel="alternate" hreflang="ar" href="https://delivery-kw.pages.dev/">
 <link rel="alternate" hreflang="x-default" href="https://delivery-kw.pages.dev/">
 <meta name="geo.region" content="KW">
 <meta name="geo.placename" content="Kuwait">
@@ -111,6 +112,38 @@
    }
   },
   {
+   "@type": "Service",
+   "@id": "https://delivery-kw.pages.dev/#service",
+   "serviceType": "توصيل طلبات",
+   "name": "توصيل طلبات الكويت 24 ساعة",
+   "provider": {
+    "@id": "https://delivery-kw.pages.dev/#business"
+   },
+   "areaServed": {
+    "@type": "Country",
+    "name": "الكويت"
+   },
+   "availableChannel": {
+    "@type": "ServiceChannel",
+    "serviceUrl": "https://wa.me/96599454818",
+    "servicePhone": "+96599454818"
+   },
+   "hoursAvailable": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+     "Monday",
+     "Tuesday",
+     "Wednesday",
+     "Thursday",
+     "Friday",
+     "Saturday",
+     "Sunday"
+    ],
+    "opens": "00:00",
+    "closes": "23:59"
+   }
+  },
+  {
    "@type": "WebSite",
    "@id": "https://delivery-kw.pages.dev/#website",
    "url": "https://delivery-kw.pages.dev/",
@@ -170,6 +203,22 @@
       "@type": "Answer",
       "text": "إيه، عندنا أسعار خاصة لأصحاب المشاريع الصغيرة والمتوسطة. راسلنا على واتساب وقول لنا كم طلب تتوقع بالأسبوع."
      }
+    },
+    {
+     "@type": "Question",
+     "name": "كم يستغرق وصول الطلب؟",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "الوقت يعتمد على المسافة وضغط الطلبات في نفس الوقت. نقول لك وقت الوصول المتوقع على واتساب أول ما نأكد لك الطلب."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "وين أقرب نقطة توصيل لكم؟",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "ما عندنا فروع نستقبل فيها الطلبات، نشتغل بمندوبين متنقلين يغطون كل مناطق الكويت الست، فالتغطية عندنا أوسع من نقطة وحدة."
+     }
     }
    ]
   }
@@ -211,7 +260,6 @@
     --field:var(--field);
     --soft:rgba(174,185,214,.2);
     --tile:rgba(16,38,94,.5);
-    --glow:rgba(27,60,154,.8);
     --strip-mid:#0D1F4C;
     --card-a:#122B6A;
     --card-b:#0C1D47;
@@ -235,7 +283,6 @@
     --field:#F2F4F9;
     --soft:rgba(16,38,94,.14);
     --tile:#FFFFFF;
-    --glow:rgba(27,60,154,.13);
     --strip-mid:#EEF2FA;
     --card-a:#FFFFFF;
     --card-b:#F4F6FB;
@@ -258,7 +305,7 @@
   :focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
   .wrap{max-width:1120px;margin-inline:auto;padding-inline:20px}
   h1,h2,h3{font-family:var(--display);line-height:1.25;margin:0;text-wrap:balance}
-  .eyebrow{font-size:.82rem;color:var(--gold);letter-spacing:.02em;font-weight:500}
+  .eyebrow{font-size:.82rem;color:var(--gold-soft);letter-spacing:.02em;font-weight:500}
   .num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;font-family:var(--body)}
 
   /* top bar */
@@ -298,10 +345,7 @@
 
   /* hero */
   .hero{position:relative;overflow:hidden;
-    background:
-      radial-gradient(900px 480px at 85% -10%, var(--glow), transparent 60%),
-      radial-gradient(600px 400px at 0% 110%, rgba(228,180,71,.12), transparent 60%),
-      var(--night)}
+    background:linear-gradient(175deg, var(--strip-mid) 0%, var(--night) 60%)}
   .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding-block:56px 64px}
   .hero h1{font-size:clamp(2.1rem,5.2vw,3.7rem);font-weight:700}
   .hero h1 em{font-style:normal;color:var(--gold);display:block}
@@ -355,6 +399,8 @@
   .head{display:flex;flex-direction:column;gap:8px;margin-bottom:32px;max-width:640px}
   .head h2{font-size:clamp(1.7rem,3.6vw,2.5rem)}
   .head p{margin:0;color:var(--mist)}
+  html.has-reveal .head{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+  html.has-reveal .head.in{opacity:1;transform:none}
 
   /* steps */
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
@@ -367,7 +413,7 @@
 
   /* order builder */
   .order{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch}
-  .card{border-radius:24px;border:1px solid var(--line);background:linear-gradient(160deg,var(--card-a),var(--card-b));padding:28px}
+  .card{border-radius:24px;border:1px solid var(--line);background:linear-gradient(160deg,var(--card-a),var(--card-b));padding:28px;box-shadow:0 28px 56px -32px var(--shadow)}
   .card h3{font-size:1.45rem;margin-bottom:4px}
   .card p.sub{margin:0 0 18px;color:var(--mist);font-size:.93rem}
   .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
@@ -388,7 +434,8 @@
 
   /* areas */
   .areas{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-  .area{padding:18px 20px;border-radius:16px;border:1px solid var(--soft);background:var(--tile)}
+  .area{padding:18px 20px;border-radius:16px;border:1px solid var(--soft);background:var(--tile);transition:transform .15s ease,border-color .15s ease}
+  .area:hover{transform:translateY(-2px);border-color:var(--gold)}
   .area b{font-family:var(--display);font-size:1.15rem;color:var(--gold-soft);display:flex;align-items:center;gap:8px}
   .area b svg{width:16px;height:16px;color:var(--gold)}
   .area span{display:block;color:var(--mist);font-size:.88rem;line-height:1.6;margin-top:4px}
@@ -408,13 +455,15 @@
 
   /* gallery */
   .gallery{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;align-items:flex-start;
-    scrollbar-color:var(--royal) transparent}
+    scrollbar-color:var(--royal) transparent;
+    mask-image:linear-gradient(to left, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
+    -webkit-mask-image:linear-gradient(to left, transparent 0, black 24px, black calc(100% - 24px), transparent 100%)}
   .gallery figure{margin:0;flex:0 0 min(240px,70%);scroll-snap-align:start;border-radius:18px;overflow:hidden;border:1px solid var(--soft)}
   .gallery img{width:100%;height:auto;aspect-ratio:9/16;object-fit:cover}
 
   /* final */
   .final{text-align:center;padding-block:72px 96px;
-    background:radial-gradient(700px 360px at 50% 0%, var(--glow), transparent 70%)}
+    background:linear-gradient(0deg, var(--night) 0%, var(--strip-mid) 100%)}
   .final img{width:110px;height:110px;border-radius:50%;margin:0 auto 18px}
   .final h2{font-size:clamp(1.8rem,4vw,2.7rem)}
   .final p{color:var(--mist);margin:10px auto 26px;max-width:40ch}
@@ -427,7 +476,7 @@
     width:60px;height:60px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;
     box-shadow:0 12px 30px -8px rgba(37,211,102,.8)}
   .fab svg{width:32px;height:32px}
-  .fab::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--wa);animation:ping 2.4s ease-out infinite}
+  .fab::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--wa);animation:ping 2.4s ease-out 3 forwards}
   @keyframes ping{from{transform:scale(1);opacity:.8}to{transform:scale(1.6);opacity:0}}
 
   /* hero trust + secondary link */
@@ -444,7 +493,8 @@
   .jump .jt{display:flex;flex-direction:column;line-height:1.45;flex:1}
   .jump .jt b{font-size:1.02rem}
   .jump .jt small{font-size:.83rem;color:var(--mist)}
-  .jump .ja{width:22px;height:22px;flex:none;color:var(--gold);animation:nudge 1.8s ease-in-out infinite}
+  .jump .ja{width:22px;height:22px;flex:none;color:var(--gold)}
+  .jump:hover .ja,.jump:focus-visible .ja{animation:nudge 1.2s ease-in-out infinite}
   @keyframes nudge{50%{transform:translateY(4px)}}
 
   /* order builder v2 */
@@ -477,7 +527,8 @@
   .faq details p{margin:0;padding:0 20px 18px;color:var(--mist)}
 
   /* gallery lightbox */
-  .gallery button{all:unset;cursor:zoom-in;display:block}
+  .gallery button{all:unset;cursor:zoom-in;display:block;transition:transform .15s ease}
+  .gallery button:hover{transform:scale(1.03)}
   .gallery button:focus-visible{outline:3px solid var(--gold);outline-offset:-3px}
   .gallery .more{flex:0 0 min(240px,70%);aspect-ratio:9/16;border-radius:18px;border:1px dashed var(--line);
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-decoration:none;color:var(--gold-soft);text-align:center;padding:16px}
@@ -578,7 +629,7 @@
           <span class="pl">للتواصل معنا</span>
           <span class="num" id="phone">99454818</span>
           <span class="pa">
-            <button class="copy" type="button" id="copyPhone">نسخ</button>
+            <button class="copy" type="button" id="copyPhone">نسخ الرقم</button>
             <a class="copy call" href="tel:+96599454818">اتصال</a>
           </span>
         </div>
@@ -740,6 +791,8 @@
         <details><summary>توصلون لأي منطقة؟</summary><p>نوصل جميع مناطق الكويت في المحافظات الست: العاصمة، حولي، الفروانية، مبارك الكبير، الأحمدي والجهراء.</p></details>
         <details><summary>شلون أدفع؟</summary><p>تقدر تدفع كاش للمندوب أو أونلاين، اللي يناسبك.</p></details>
         <details><summary>عندي مشروع، في أسعار خاصة؟</summary><p>إيه، عندنا أسعار خاصة لأصحاب المشاريع الصغيرة والمتوسطة. راسلنا على واتساب وقول لنا كم طلب تتوقع بالأسبوع.</p></details>
+        <details><summary>كم يستغرق وصول الطلب؟</summary><p>الوقت يعتمد على المسافة وضغط الطلبات في نفس الوقت. نقول لك وقت الوصول المتوقع على واتساب أول ما نأكد لك الطلب.</p></details>
+        <details><summary>وين أقرب نقطة توصيل لكم؟</summary><p>ما عندنا فروع نستقبل فيها الطلبات، نشتغل بمندوبين متنقلين يغطون كل مناطق الكويت الست، فالتغطية عندنا أوسع من نقطة وحدة.</p></details>
         <details><summary>شلون أتابع العروض الجديدة؟</summary><p>تابعنا على انستجرام <a href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener noreferrer" style="color:var(--gold-soft)">@td.delivery1</a>، ننزل الخصومات والعروض هناك أول بأول.</p></details>
       </div>
     </div>
@@ -871,6 +924,16 @@
     try { navigator.clipboard.writeText('99454818').then(done, fallback); } catch(e){ fallback(); }
   });
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('has-reveal');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); }
+      });
+    }, { threshold: .15 });
+    document.querySelectorAll('.head').forEach(function (el) { io.observe(el); });
+  }
 })();
 </script>
 </body>
