@@ -420,8 +420,17 @@
   .trust{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:18px;font-size:.88rem;color:var(--mist)}
   .trust span{display:inline-flex;align-items:center;gap:6px}
   .trust b{color:var(--gold-soft);font-weight:700}
-  .jump{display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:var(--gold-soft);font-size:.95rem;text-decoration:none;border-bottom:1px dashed var(--line)}
-  .jump:hover{border-color:var(--gold)}
+  .jump{display:flex;align-items:center;gap:14px;margin-top:14px;max-width:460px;padding:14px 16px;border-radius:16px;
+    text-decoration:none;color:var(--sand);background:var(--tile);border:1.5px solid var(--gold);
+    box-shadow:0 10px 26px -16px var(--shadow);transition:transform .15s ease, background .15s ease}
+  .jump:hover{transform:translateY(-2px)}
+  .jump .ji{width:44px;height:44px;border-radius:12px;flex:none;display:grid;place-items:center;background:var(--gold-fill);color:var(--on-gold)}
+  .jump .ji svg{width:22px;height:22px}
+  .jump .jt{display:flex;flex-direction:column;line-height:1.45;flex:1}
+  .jump .jt b{font-size:1.02rem}
+  .jump .jt small{font-size:.83rem;color:var(--mist)}
+  .jump .ja{width:22px;height:22px;flex:none;color:var(--gold);animation:nudge 1.8s ease-in-out infinite}
+  @keyframes nudge{50%{transform:translateY(4px)}}
 
   /* order builder v2 */
   .route{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end}
@@ -537,6 +546,11 @@
             <svg aria-hidden="true"><use href="#i-ig"/></svg>تابعنا على انستجرام
           </a>
         </div>
+        <a class="jump" href="#order">
+          <span class="ji"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4h6a1 1 0 0 1 1 1v1H8V5a1 1 0 0 1 1-1Z M8 6H6.5A1.5 1.5 0 0 0 5 7.5v12A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 17.5 6H16 M8.5 12h7M8.5 16h4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="jt"><b>جهّز طلبك بالتفصيل</b><small>اختار المنطقة ونوع الطلب، ونرسله لنا على واتساب جاهز</small></span>
+          <svg class="ja" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14m0 0-6-6m6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
         <div class="phone">
           <span>للتواصل معنا</span>
           <span class="num" id="phone">99454818</span>
@@ -548,7 +562,6 @@
           <span><b>6</b> محافظات نغطيها</span>
           <span>دفع <b>كاش</b> أو <b>أونلاين</b></span>
         </div>
-        <a class="jump" href="#order">جهّز طلبك بالتفصيل ↓</a>
       </div>
       <div class="hero-art">
         <div class="photo"><img src="assets/courier.jpg" alt="مندوب Delivery.KW يسلّم طلب عند باب العميل" width="760" height="909"></div>
