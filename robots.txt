@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kimoo193.github.io/delivery.kw/sitemap.xml
