@@ -269,9 +269,9 @@
     cursor:pointer;display:grid;place-items:center;flex:none}
   .mode:hover{border-color:var(--gold)}
   .mode svg{width:20px;height:20px}
-  .mode .sun{display:none}
-  :root[data-mode="light"] .mode .sun{display:block}
-  :root[data-mode="light"] .mode .moon{display:none}
+  .mode .moon{display:none}
+  :root[data-mode="light"] .mode .moon{display:block}
+  :root[data-mode="light"] .mode .sun{display:none}
   .bar .end{display:flex;align-items:center;gap:10px}
 
   /* buttons */
@@ -302,8 +302,11 @@
   .perks b{font-size:1rem;color:var(--sand);font-weight:700;margin-bottom:2px}
   @media (max-width:520px){.perks{grid-template-columns:1fr}}
   .cta-row{display:flex;flex-wrap:wrap;gap:12px}
-  .phone{margin-top:22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--mist);font-size:.95rem}
-  .phone .num{font-size:1.5rem;font-weight:700;color:var(--gold-soft);letter-spacing:.04em;user-select:all}
+  .phone{margin-top:14px;max-width:460px;display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:14px;
+    border:1px solid var(--soft);background:var(--tile);color:var(--mist);font-size:.9rem}
+  .phone .num{font-size:1.35rem;font-weight:700;color:var(--gold-soft);letter-spacing:.04em;user-select:all}
+  .phone .pa{margin-inline-start:auto;display:flex;gap:8px}
+  .copy.call{text-decoration:none}
   .copy{background:none;border:1px solid var(--line);color:var(--mist);border-radius:9px;padding:4px 10px;font:inherit;font-size:.82rem;cursor:pointer}
   .copy:hover{color:var(--sand);border-color:var(--gold)}
   .hero-art{position:relative}
@@ -417,9 +420,10 @@
   @keyframes ping{from{transform:scale(1);opacity:.8}to{transform:scale(1.6);opacity:0}}
 
   /* hero trust + secondary link */
-  .trust{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:18px;font-size:.88rem;color:var(--mist)}
-  .trust span{display:inline-flex;align-items:center;gap:6px}
-  .trust b{color:var(--gold-soft);font-weight:700}
+  .trust{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:18px;max-width:460px;font-size:.8rem;color:var(--mist);text-align:center}
+  .trust span{display:flex;flex-direction:column;align-items:center;gap:2px;padding-inline:6px;line-height:1.4;border-inline-start:1px solid var(--soft)}
+  .trust span:first-child{border-inline-start:0}
+  .trust b{color:var(--gold-soft);font-weight:700;font-size:1.2rem;font-family:var(--body)}
   .jump{display:flex;align-items:center;gap:14px;margin-top:14px;max-width:460px;padding:14px 16px;border-radius:16px;
     text-decoration:none;color:var(--sand);background:var(--tile);border:1.5px solid var(--gold);
     box-shadow:0 10px 26px -16px var(--shadow);transition:transform .15s ease, background .15s ease}
@@ -485,6 +489,14 @@
     .dock a svg{width:20px;height:20px}
     .dock a.wa{background:var(--wa);color:var(--wa-ink);border-color:var(--wa)}
     .bar .btn-wa{display:none}
+    .hero .cta-row .btn-wa{flex:1 1 100%}
+    .hero .cta-row .btn-ig{display:none}
+    .hero .phone .call{display:none}
+    .jump{max-width:none}
+    .phone{max-width:none}
+    .trust{max-width:none}
+    .hero p.lead{margin:12px 0 16px;font-size:1.02rem}
+    .perks{gap:10px;margin-bottom:22px}
     .hero-art .photo img{aspect-ratio:4/3.4;object-position:30% 20%}
   }
 </style>
@@ -536,7 +548,7 @@
           <li><svg aria-hidden="true"><use href="#i-pin"/></svg><span><b>نوصل جميع مناطق الكويت</b>من الجهراء إلى الأحمدي</span></li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg><span><b>أقل الأسعار وأسرع خدمة</b>سعر واضح قبل الاستلام</span></li>
           <li><svg aria-hidden="true"><use href="#i-box"/></svg><span><b>نوصل جميع الأغراض</b>ملابس · هدايا · إكسسوارات · مطاعم</span></li>
-          <li><svg aria-hidden="true"><use href="#i-clock"/></svg><span><b>خدمة 24 ساعة 🕛</b>نستقبل طلبك ليل ونهار</span></li>
+          <li><svg aria-hidden="true"><use href="#i-clock"/></svg><span><b>خدمة 24 ساعة</b>نستقبل طلبك ليل ونهار</span></li>
         </ul>
         <div class="cta-row">
           <a class="btn btn-wa js-wa" href="https://wa.me/96599454818" target="_blank" rel="noopener">
@@ -552,15 +564,17 @@
           <svg class="ja" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14m0 0-6-6m6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <div class="phone">
-          <span>للتواصل معنا</span>
+          <span class="pl">للتواصل معنا</span>
           <span class="num" id="phone">99454818</span>
-          <button class="copy" type="button" id="copyPhone">نسخ الرقم</button>
-          <a class="copy" href="tel:+96599454818" style="text-decoration:none">اتصال</a>
+          <span class="pa">
+            <button class="copy" type="button" id="copyPhone">نسخ</button>
+            <a class="copy call" href="tel:+96599454818">اتصال</a>
+          </span>
         </div>
         <div class="trust">
-          <span><b class="num">+6,000</b> متابع على انستجرام</span>
-          <span><b>6</b> محافظات نغطيها</span>
-          <span>دفع <b>كاش</b> أو <b>أونلاين</b></span>
+          <span><b class="num">+6,000</b>متابع على انستجرام</span>
+          <span><b>6</b>محافظات نغطيها</span>
+          <span><b>كاش</b>أو دفع أونلاين</span>
         </div>
       </div>
       <div class="hero-art">
