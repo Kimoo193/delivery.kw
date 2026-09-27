@@ -88,7 +88,7 @@
   .hero-art{position:relative}
   .hero-art .photo{border-radius:28px 28px 28px 120px;overflow:hidden;border:1px solid var(--line);
     box-shadow:0 40px 80px -30px rgba(0,0,0,.7)}
-  .hero-art .photo img{width:100%;aspect-ratio:760/909;object-fit:cover}
+  .hero-art .photo img{width:100%;height:auto;aspect-ratio:760/909;object-fit:cover}
   .seal{position:absolute;inset-inline-end:-18px;bottom:-22px;width:132px;height:132px;border-radius:50%;
     box-shadow:0 18px 40px -12px rgba(0,0,0,.8);animation:float 6s ease-in-out infinite}
   @keyframes float{50%{transform:translateY(-8px) rotate(-3deg)}}
@@ -147,8 +147,9 @@
   .card .btn-wa{width:100%;margin-top:6px}
   .note{font-size:.8rem;color:var(--mist);margin-top:10px}
   .offer{border-radius:24px;overflow:hidden;border:1px solid var(--line);position:relative}
-  .offer img{width:100%;height:100%;object-fit:cover;aspect-ratio:1}
-  @media (max-width:860px){.order{grid-template-columns:1fr}.offer{max-width:520px}}
+  .offer{align-self:start;position:sticky;top:90px}
+  .offer img{width:100%;height:auto;object-fit:cover;aspect-ratio:1}
+  @media (max-width:860px){.order{grid-template-columns:1fr}.offer{max-width:520px;position:static}}
 
   /* areas */
   .areas{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -175,7 +176,6 @@
     scrollbar-color:var(--royal) transparent}
   .gallery figure{margin:0;flex:0 0 min(240px,70%);scroll-snap-align:start;border-radius:18px;overflow:hidden;border:1px solid rgba(174,185,214,.15)}
   .gallery img{width:100%;height:auto;aspect-ratio:9/16;object-fit:cover}
-  .gallery figure.sq img{aspect-ratio:9/16}
 
   /* final */
   .final{text-align:center;padding-block:72px 96px;
@@ -194,6 +194,69 @@
   .fab svg{width:32px;height:32px}
   .fab::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--wa);animation:ping 2.4s ease-out infinite}
   @keyframes ping{from{transform:scale(1);opacity:.8}to{transform:scale(1.6);opacity:0}}
+
+  /* hero trust + secondary link */
+  .trust{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:18px;font-size:.88rem;color:var(--mist)}
+  .trust span{display:inline-flex;align-items:center;gap:6px}
+  .trust b{color:var(--gold-soft);font-weight:700}
+  .jump{display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:var(--gold-soft);font-size:.95rem;text-decoration:none;border-bottom:1px dashed var(--line)}
+  .jump:hover{border-color:var(--gold)}
+
+  /* order builder v2 */
+  .route{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end}
+  .swap{width:42px;height:42px;margin-bottom:14px;border-radius:12px;border:1px solid rgba(174,185,214,.25);
+    background:rgba(10,23,51,.7);color:var(--gold);cursor:pointer;display:grid;place-items:center}
+  .swap:hover{border-color:var(--gold)}
+  .swap svg{width:18px;height:18px}
+  @media (max-width:520px){.route{grid-template-columns:1fr}.swap{justify-self:center;margin:-6px 0 8px;transform:rotate(90deg)}}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;border:0;margin:0 0 14px;padding:0}
+  .chips legend{font-size:.88rem;color:var(--gold-soft);margin-bottom:6px;padding:0}
+  .chips input{position:absolute;opacity:0;pointer-events:none}
+  .chips label{padding:8px 14px;border-radius:999px;border:1px solid rgba(174,185,214,.25);font-size:.9rem;cursor:pointer;
+    color:var(--sand);background:rgba(10,23,51,.5);transition:background .15s,border-color .15s}
+  .chips input:checked+label{background:var(--gold);border-color:var(--gold);color:var(--night);font-weight:700}
+  .chips input:focus-visible+label{outline:3px solid var(--gold);outline-offset:2px}
+  .field.bad input{border-color:#FF8A7A}
+  .err{color:#FFB3A7;font-size:.85rem;margin:0 0 10px}
+  .preview{margin:4px 0 14px;padding:12px 14px;border-radius:14px 14px 4px 14px;background:#0B3D2A;color:#E6F7EC;
+    font-size:.88rem;line-height:1.7;white-space:pre-line;border:1px solid rgba(37,211,102,.3)}
+  .preview-label{font-size:.78rem;color:var(--mist);margin-bottom:4px;display:block}
+
+  /* faq */
+  .faq{display:flex;flex-direction:column;gap:10px;max-width:780px}
+  .faq details{border:1px solid rgba(174,185,214,.16);border-radius:16px;background:rgba(16,38,94,.45)}
+  .faq summary{cursor:pointer;list-style:none;padding:16px 20px;font-weight:500;display:flex;justify-content:space-between;gap:12px;align-items:center}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-size:1.4rem;line-height:1;color:var(--gold);transition:transform .2s}
+  .faq details[open] summary::after{transform:rotate(45deg)}
+  .faq details p{margin:0;padding:0 20px 18px;color:var(--mist)}
+
+  /* gallery lightbox */
+  .gallery button{all:unset;cursor:zoom-in;display:block}
+  .gallery button:focus-visible{outline:3px solid var(--gold);outline-offset:-3px}
+  .gallery .more{flex:0 0 min(240px,70%);aspect-ratio:9/16;border-radius:18px;border:1px dashed var(--line);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-decoration:none;color:var(--gold-soft);text-align:center;padding:16px}
+  .gallery .more svg{width:36px;height:36px}
+  dialog.lb{border:0;padding:0;background:transparent;max-width:min(92vw,560px);max-height:92vh}
+  dialog.lb::backdrop{background:rgba(5,11,26,.88)}
+  dialog.lb img{max-height:86vh;width:auto;height:auto;margin-inline:auto;border-radius:16px}
+  dialog.lb button{position:absolute;top:8px;inset-inline-end:8px;width:40px;height:40px;border-radius:50%;border:0;
+    background:rgba(10,23,51,.85);color:var(--sand);font-size:1.3rem;cursor:pointer}
+
+  /* mobile action bar replaces the floating button */
+  .dock{display:none}
+  @media (max-width:760px){
+    .fab{display:none}
+    .dock{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:8px;position:fixed;inset-inline:0;bottom:0;z-index:30;
+      padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(10,23,51,.94);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+    .dock a{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 8px;border-radius:12px;
+      font-weight:700;font-size:.92rem;text-decoration:none;border:1px solid var(--line);color:var(--sand)}
+    .dock a svg{width:20px;height:20px}
+    .dock a.wa{background:var(--wa);color:var(--wa-ink);border-color:var(--wa)}
+    .bar .btn-wa{display:none}
+    .hero-art .photo img{aspect-ratio:4/3.4;object-position:30% 20%}
+  }
 </style>
 </head>
 <body>
@@ -216,6 +279,7 @@
       <a href="#order">اطلب الحين</a>
       <a href="#areas">مناطق التوصيل</a>
       <a href="#business">للمشاريع</a>
+      <a href="#faq">أسئلة</a>
     </nav>
     <a class="btn btn-wa btn-sm js-wa" href="https://wa.me/96599454818" target="_blank" rel="noopener">
       <svg aria-hidden="true"><use href="#i-wa"/></svg>واتساب
@@ -244,6 +308,12 @@
           <button class="copy" type="button" id="copyPhone">نسخ الرقم</button>
           <a class="copy" href="tel:+96599454818" style="text-decoration:none">اتصال</a>
         </div>
+        <div class="trust">
+          <span><b class="num">+6,000</b> متابع على انستجرام</span>
+          <span><b>6</b> محافظات نغطيها</span>
+          <span>دفع <b>كاش</b> أو <b>أونلاين</b></span>
+        </div>
+        <a class="jump" href="#order">جهّز طلبك بالتفصيل ↓</a>
       </div>
       <div class="hero-art">
         <div class="photo"><img src="assets/courier.jpg" alt="مندوب Delivery.KW يسلّم طلب عند باب العميل" width="760" height="909"></div>
@@ -255,7 +325,7 @@
 
   <div class="strip">
     <ul class="wrap">
-      <li><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13" cy="13" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M13 9v4l2.5 2M3 8h4M2 12h3M3 16h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><div><b>سرعة</b><span>استلام وتسليم بنفس اليوم</span></div></li>
+      <li><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13" cy="13" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M13 9v4l2.5 2M3 8h4M2 12h3M3 16h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><div><b>سرعة</b><span>استلام وتسليم سريع</span></div></li>
       <li><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12l4-4 4 3 3-2 7 5-3 3-3-2-2 2-4-3-3 2Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div><b>التزام</b><span>بالمواعيد وبكلمتنا</span></div></li>
       <li><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/></svg></span><div><b>خبرة</b><span>نعرف مناطق الكويت شارع شارع</span></div></li>
       <li><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 4.5 5.5v6c0 4.6 3.2 8.4 7.5 10 4.3-1.6 7.5-5.4 7.5-10v-6Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m8.5 12 2.4 2.4L15.8 9.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>دقة وأمانة</b><span>طلبك يوصل مثل ما طلع</span></div></li>
@@ -281,39 +351,40 @@
       <form class="card" id="orderForm" novalidate>
         <h3>جهّز طلبك</h3>
         <p class="sub">عبّي البيانات ونفتح لك واتساب برسالة جاهزة.</p>
-        <div class="row2">
-          <div class="field">
+        <div class="route">
+          <div class="field" id="f-from">
             <label for="from">منطقة الاستلام</label>
-            <input id="from" name="from" placeholder="مثال: السالمية" autocomplete="off">
+            <input id="from" name="from" list="areasList" placeholder="مثال: السالمية" autocomplete="off">
           </div>
-          <div class="field">
+          <button class="swap" type="button" id="swap" aria-label="بدّل الاستلام والتسليم">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h13m0 0-4-4m4 4-4 4M17 17H4m0 0 4 4m-4-4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="field" id="f-to">
             <label for="to">منطقة التسليم</label>
-            <input id="to" name="to" placeholder="مثال: الجهراء" autocomplete="off">
+            <input id="to" name="to" list="areasList" placeholder="مثال: الجهراء" autocomplete="off">
           </div>
         </div>
-        <div class="row2">
-          <div class="field">
-            <label for="kind">نوع الطلب</label>
-            <select id="kind" name="kind">
-              <option>طلب / غرض شخصي</option>
-              <option>طلب من متجر أو مشروع</option>
-              <option>أكل</option>
-              <option>مستندات وأوراق</option>
-              <option>أخرى</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="pay">طريقة الدفع</label>
-            <select id="pay" name="pay">
-              <option>كاش</option>
-              <option>أونلاين</option>
-            </select>
-          </div>
-        </div>
+        <datalist id="areasList"></datalist>
+        <fieldset class="chips">
+          <legend>نوع الطلب</legend>
+          <input type="radio" name="kind" id="k1" value="طلب / غرض شخصي" checked><label for="k1">غرض شخصي</label>
+          <input type="radio" name="kind" id="k2" value="طلب من متجر أو مشروع"><label for="k2">متجر / مشروع</label>
+          <input type="radio" name="kind" id="k3" value="أكل"><label for="k3">أكل</label>
+          <input type="radio" name="kind" id="k4" value="مستندات وأوراق"><label for="k4">مستندات</label>
+          <input type="radio" name="kind" id="k5" value="أخرى"><label for="k5">أخرى</label>
+        </fieldset>
+        <fieldset class="chips">
+          <legend>طريقة الدفع</legend>
+          <input type="radio" name="pay" id="p1" value="كاش" checked><label for="p1">كاش</label>
+          <input type="radio" name="pay" id="p2" value="أونلاين"><label for="p2">أونلاين</label>
+        </fieldset>
         <div class="field">
-          <label for="notes">ملاحظات</label>
+          <label for="notes">ملاحظات <span style="color:var(--mist)">(اختياري)</span></label>
           <textarea id="notes" name="notes" placeholder="الوقت المناسب، رقم المستلم، أي تفاصيل"></textarea>
         </div>
+        <span class="preview-label">الرسالة اللي بتوصلنا:</span>
+        <div class="preview" id="preview" aria-live="polite"></div>
+        <p class="err" id="err" hidden>اكتب منطقة الاستلام ومنطقة التسليم عشان نعطيك السعر.</p>
         <a class="btn btn-wa" id="sendOrder" href="https://wa.me/96599454818" target="_blank" rel="noopener">
           <svg aria-hidden="true"><use href="#i-wa"/></svg>أرسل الطلب على واتساب
         </a>
@@ -355,7 +426,7 @@
         </div>
         <ul>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg>توصيل يومي أو حسب الطلب</li>
-          <li><svg aria-hidden="true"><use href="#i-check"/></svg>تحصيل المبلغ كاش من العميل</li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg>دفع كاش أو أونلاين</li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg>تغطية كل المحافظات</li>
           <li><svg aria-hidden="true"><use href="#i-check"/></svg>تواصل مباشر مع المندوب</li>
         </ul>
@@ -370,11 +441,31 @@
         <h2>@td.delivery1</h2>
       </div>
       <div class="gallery" tabindex="0" aria-label="إعلانات Delivery.KW">
-        <figure><img src="assets/poster-blue.jpg" alt="إعلان Delivery.KW باللون الأزرق" width="720" height="1280"></figure>
-        <figure><img src="assets/poster-red.jpg" alt="إعلان Delivery.KW باللون الأحمر" width="720" height="1080"></figure>
-        <figure><img src="assets/poster-map.jpg" alt="إعلان خريطة الكويت ومناطق التوصيل" width="720" height="1280"></figure>
-        <figure><img src="assets/door-to-door.jpg" alt="من الباب إلى الباب" width="1000" height="1000"></figure>
-        <figure><img src="assets/poster-green.jpg" alt="إعلان Delivery.KW باللون الأخضر" width="720" height="1280"></figure>
+        <figure><button type="button" data-full="assets/poster-blue.jpg" aria-label="كبّر الصورة"><img src="assets/poster-blue.jpg" alt="إعلان Delivery.KW باللون الأزرق" width="720" height="1280"></button></figure>
+        <figure><button type="button" data-full="assets/poster-red.jpg" aria-label="كبّر الصورة"><img src="assets/poster-red.jpg" alt="إعلان Delivery.KW باللون الأحمر" width="720" height="1080"></button></figure>
+        <figure><button type="button" data-full="assets/poster-map.jpg" aria-label="كبّر الصورة"><img src="assets/poster-map.jpg" alt="إعلان خريطة الكويت ومناطق التوصيل" width="720" height="1280"></button></figure>
+        <figure><button type="button" data-full="assets/door-to-door.jpg" aria-label="كبّر الصورة"><img src="assets/door-to-door.jpg" alt="من الباب إلى الباب" width="1000" height="1000"></button></figure>
+        <figure><button type="button" data-full="assets/poster-green.jpg" aria-label="كبّر الصورة"><img src="assets/poster-green.jpg" alt="إعلان Delivery.KW باللون الأخضر" width="720" height="1280"></button></figure>
+        <a class="more" href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener">
+          <svg aria-hidden="true"><use href="#i-ig"/></svg>
+          <span>شوف كل العروض<br>على انستجرام</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="faq" style="padding-top:0">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">أسئلة متكررة</p>
+        <h2>قبل ما تطلب</h2>
+      </div>
+      <div class="faq">
+        <details><summary>كم سعر التوصيل؟</summary><p>الأسعار تبدأ من 2 دينار، والسعر النهائي يعتمد على المسافة بين منطقة الاستلام ومنطقة التسليم. نأكد لك السعر على واتساب قبل ما نستلم الطلب.</p></details>
+        <details><summary>توصلون لأي منطقة؟</summary><p>نعم، نوصل جميع مناطق الكويت في المحافظات الست: العاصمة، حولي، الفروانية، مبارك الكبير، الأحمدي والجهراء.</p></details>
+        <details><summary>شلون أدفع؟</summary><p>تقدر تدفع كاش للمندوب أو أونلاين، اللي يناسبك.</p></details>
+        <details><summary>عندي مشروع، في أسعار خاصة؟</summary><p>إيه، عندنا أسعار خاصة لأصحاب المشاريع الصغيرة والمتوسطة. راسلنا على واتساب وقول لنا كم طلب تتوقع بالأسبوع.</p></details>
+        <details><summary>شلون أتابع العروض الجديدة؟</summary><p>تابعنا على انستجرام <a href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener" style="color:var(--gold-soft)">@td.delivery1</a>، ننزل الخصومات والعروض هناك أول بأول.</p></details>
       </div>
     </div>
   </section>
@@ -407,6 +498,17 @@
   <svg aria-hidden="true"><use href="#i-wa"/></svg>
 </a>
 
+<nav class="dock" aria-label="تواصل سريع">
+  <a class="wa js-wa" href="https://wa.me/96599454818" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>اطلب واتساب</a>
+  <a href="tel:+96599454818"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1Z" fill="currentColor"/></svg>اتصال</a>
+  <a href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-ig"/></svg>انستجرام</a>
+</nav>
+
+<dialog class="lb" id="lb" aria-label="عرض الصورة">
+  <img id="lbImg" src="" alt="">
+  <button type="button" id="lbClose" aria-label="إغلاق">×</button>
+</dialog>
+
 <script>
 (function(){
   var WA = 'https://wa.me/96599454818?text=';
@@ -416,20 +518,60 @@
     a.href = WA + encodeURIComponent('السلام عليكم، عندي مشروع وأبي أعرف أسعار التوصيل الخاصة للمشاريع');
   });
 
-  var f = document.getElementById('orderForm'), send = document.getElementById('sendOrder');
+  var AREAS = ['مدينة الكويت','الشرق','المرقاب','الدسمة','الدعية','الشامية','الشويخ','كيفان','الخالدية','العديلية','الفيحاء','النزهة','القادسية','المنصورية','الروضة','اليرموك','قرطبة','السرة','الصليبخات','الدوحة','غرناطة','القيروان','النهضة','جابر الأحمد',
+    'حولي','السالمية','الجابرية','الرميثية','بيان','مشرف','سلوى','الشعب','ميدان حولي','الزهراء','الصديق','حطين','السلام','الشهداء','البدع',
+    'الفروانية','خيطان','جليب الشيوخ','العارضية','الرابية','الرحاب','الأندلس','العمرية','الرقعي','إشبيلية','الضجيج','عبدالله المبارك','صباح الناصر','الفردوس',
+    'صباح السالم','القرين','العدان','القصور','المسيلة','أبو فطيرة','مبارك الكبير','الفنيطيس','المسايل','أبو الحصانية',
+    'الفحيحيل','المنقف','المهبولة','أبو حليفة','الفنطاس','الصباحية','الرقة','هدية','العقيلة','الظهر','الأحمدي','صباح الأحمد','الوفرة','الخيران','الزور','علي صباح السالم',
+    'الجهراء','سعد العبدالله','القصر','العيون','النسيم','تيماء','الواحة','النعيم','الصليبية','أمغرة','المطلاع','كبد'];
+  var dl = document.getElementById('areasList');
+  AREAS.forEach(function(a){ var o = document.createElement('option'); o.value = a; dl.appendChild(o); });
+
+  var f = document.getElementById('orderForm'), send = document.getElementById('sendOrder'),
+      preview = document.getElementById('preview'), err = document.getElementById('err');
   function v(id){ return document.getElementById(id).value.trim(); }
-  function build(){
+  function r(name){ var c = f.querySelector('input[name="'+name+'"]:checked'); return c ? c.value : ''; }
+  function message(){
     var lines = ['السلام عليكم، أبي أطلب توصيل 🚗',
       '📍 الاستلام: ' + (v('from') || '—'),
       '🏁 التسليم: ' + (v('to') || '—'),
-      '📦 نوع الطلب: ' + v('kind'),
-      '💳 الدفع: ' + v('pay')];
+      '📦 نوع الطلب: ' + r('kind'),
+      '💳 الدفع: ' + r('pay')];
     if (v('notes')) lines.push('📝 ملاحظات: ' + v('notes'));
-    send.href = WA + encodeURIComponent(lines.join('\n'));
+    return lines.join('\n');
+  }
+  function mark(){
+    ['from','to'].forEach(function(id){ document.getElementById('f-'+id).classList.toggle('bad', !v(id)); });
+  }
+  function build(){
+    var m = message();
+    preview.textContent = m;
+    send.href = WA + encodeURIComponent(m);
+    if (!err.hidden && v('from') && v('to')) { err.hidden = true; mark(); }
   }
   f.addEventListener('input', build); f.addEventListener('change', build);
   f.addEventListener('submit', function(e){ e.preventDefault(); });
+  send.addEventListener('click', function(e){
+    if (v('from') && v('to')) return;
+    e.preventDefault(); err.hidden = false; mark();
+    document.getElementById(v('from') ? 'to' : 'from').focus();
+  });
+  document.getElementById('swap').addEventListener('click', function(){
+    var a = document.getElementById('from'), b = document.getElementById('to'), t = a.value;
+    a.value = b.value; b.value = t; build();
+  });
   build();
+
+  var lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg');
+  document.querySelectorAll('.gallery button[data-full]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var img = b.querySelector('img');
+      lbImg.src = b.getAttribute('data-full'); lbImg.alt = img.alt;
+      if (lb.showModal) lb.showModal(); else lb.setAttribute('open','');
+    });
+  });
+  document.getElementById('lbClose').addEventListener('click', function(){ lb.close(); });
+  lb.addEventListener('click', function(e){ if (e.target === lb) lb.close(); });
 
   var btn = document.getElementById('copyPhone');
   btn.addEventListener('click', function(){
