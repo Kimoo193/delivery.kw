@@ -46,6 +46,19 @@ for tag, attr in [('style', 'style-src'), ('script', 'script-src')]:
 
 ملف `_headers` يضبط أيضاً التخزين المؤقت للصور على Cloudflare لمدة 30 يوم، ورؤوس أمان إضافية (HSTS، Permissions-Policy، X-Frame-Options، إلخ).
 
+## الصور
+
+كل صورة موجودة بنسختين: الأصلية (`.jpg`/`.png`) ونسخة `.webp` مضغوطة (توفير ٣٨٪ من الحجم بدون فرق يذكر بالجودة)، مربوطتين بوسم `<picture>` — المتصفح يختار WebP تلقائياً ويرجع للأصلية لو ما يدعمها. إذا ضفت صورة جديدة، حوّلها بنفس الطريقة:
+
+```bash
+python3 -c "
+from PIL import Image
+im = Image.open('assets/NAME.jpg')
+im.save('assets/NAME.webp', 'WEBP', quality=80, method=6)"
+```
+
+وحطها داخل `<picture><source srcset="assets/NAME.webp" type="image/webp"><img src="assets/NAME.jpg" ...></picture>`.
+
 ## الخطوط
 
 الموقع يحمّل خطوط Reem Kufi و Readex Pro محلياً من `assets/fonts/` (بدل Google Fonts مباشرة) — يحسّن الخصوصية (ما نرسل IP الزائر لجوجل) والسرعة، ويسهّل CSP الصارم. إذا احتجت تغيّر الأوزان أو تضيف خط جديد، حمّل ملفات الـ woff2 يدوياً من [Google Fonts](https://fonts.google.com) وحدّث كتلة `@font-face` في `index.html`.
