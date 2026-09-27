@@ -13,7 +13,7 @@ Settings → Pages → Deploy from a branch → اختر الفرع والمجل
 ## النشر على Cloudflare Pages
 
 1. من [dash.cloudflare.com](https://dash.cloudflare.com): **Workers & Pages → Create → Pages → Connect to Git**.
-2. اختر الريبو `Kimoo193/delivery.kw` والفرع `main`.
+2. اختر الريبو `Kimoo193/delivery.kw` والفرع `claude/kuwait-delivery-page-5h7juu` (هذا هو الفرع الافتراضي في الريبو حالياً — تقدر تتأكد من GitHub → Settings → Branches. إذا رجّعت `main` يكون الفرع الافتراضي بدل كذا، اختره هو).
 3. **مهم:** سمّي المشروع `delivery-kw` بالضبط (Project name). كل روابط SEO في الموقع (canonical، og:url، sitemap.xml، robots.txt) مضبوطة مسبقاً على `https://delivery-kw.pages.dev/` — إذا سمّيت المشروع شي ثاني لازم تسوي find-and-replace لنفس الروابط.
 4. الإعدادات: **Framework preset: None**، **Build command: فاضي**، **Build output directory: `/`**.
 5. اضغط **Save and Deploy**. الموقع يطلع على `https://delivery-kw.pages.dev` وأي رفع على `main` يتحدث تلقائياً.
