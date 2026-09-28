@@ -19,7 +19,7 @@ Settings → Pages → Deploy from a branch → اختر الفرع والمجل
 
 ملف `_headers` يضبط التخزين المؤقت للصور على Cloudflare لمدة 30 يوم.
 
-بعد ما تعرف الرابط النهائي، حدّث الرابط في `index.html` (canonical و og:url) وفي `sitemap.xml` و`robots.txt`.
+الرابط الأساسي للموقع هو `https://delivery-kw.pages.dev/`، وهو المكتوب في `index.html` (canonical و og:url) وفي `sitemap.xml` و`robots.txt`. إذا غيّرت الدومين، غيّره في هالملفات الثلاثة.
 
 ## اختبار عدد الزوار في نفس الوقت
 

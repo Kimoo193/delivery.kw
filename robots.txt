@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kimoo193.github.io/delivery.kw/sitemap.xml
+Sitemap: https://delivery-kw.pages.dev/sitemap.xml
