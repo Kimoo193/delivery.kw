@@ -562,11 +562,15 @@
     .perks{gap:10px;margin-bottom:22px}
     .hero-art .photo img{aspect-ratio:4/3.4;object-position:30% 20%}
   }
+.svg-defs{position:absolute}
+.block.flush{padding-top:0}
+.muted{color:var(--mist)}
+.link-gold{color:var(--gold-soft)}
 </style>
 </head>
 <body>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<svg class="svg-defs" width="0" height="0" aria-hidden="true">
   <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.69 8.24-8.23 8.24Zm4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></symbol>
   <symbol id="i-ig" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M7.5 2.75h9a4.75 4.75 0 0 1 4.75 4.75v9a4.75 4.75 0 0 1-4.75 4.75h-9A4.75 4.75 0 0 1 2.75 16.5v-9A4.75 4.75 0 0 1 7.5 2.75Z"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></symbol>
@@ -671,7 +675,7 @@
     </div>
   </section>
 
-  <section class="block" id="order" style="padding-top:0">
+  <section class="block flush" id="order">
     <div class="wrap order">
       <form class="card" id="orderForm" novalidate>
         <h3>جهّز طلبك</h3>
@@ -705,7 +709,7 @@
           <input type="radio" name="pay" id="p2" value="أونلاين"><label for="p2">أونلاين</label>
         </fieldset>
         <div class="field">
-          <label for="notes">ملاحظات <span style="color:var(--mist)">(اختياري)</span></label>
+          <label for="notes">ملاحظات <span class="muted">(اختياري)</span></label>
           <textarea id="notes" name="notes" placeholder="الوقت المناسب، رقم المستلم، أي تفاصيل"></textarea>
         </div>
         <span class="preview-label">الرسالة اللي بتوصلنا:</span>
@@ -722,7 +726,7 @@
     </div>
   </section>
 
-  <section class="block" id="areas" style="padding-top:0">
+  <section class="block flush" id="areas">
     <div class="wrap">
       <div class="head">
         <p class="eyebrow">مناطق التوصيل</p>
@@ -740,7 +744,7 @@
     </div>
   </section>
 
-  <section class="block" id="business" style="padding-top:0">
+  <section class="block flush" id="business">
     <div class="wrap">
       <div class="biz">
         <div>
@@ -760,7 +764,7 @@
     </div>
   </section>
 
-  <section class="block" style="padding-top:0">
+  <section class="block flush">
     <div class="wrap">
       <div class="head">
         <p class="eyebrow">من صفحتنا على انستجرام</p>
@@ -779,7 +783,7 @@
     </div>
   </section>
 
-  <section class="block" id="faq" style="padding-top:0">
+  <section class="block flush" id="faq">
     <div class="wrap">
       <div class="head">
         <p class="eyebrow">أسئلة متكررة</p>
@@ -794,7 +798,7 @@
         <details><summary>عندي مشروع، في أسعار خاصة؟</summary><p>إيه، عندنا أسعار خاصة لأصحاب المشاريع الصغيرة والمتوسطة. راسلنا على واتساب وقول لنا كم طلب تتوقع بالأسبوع.</p></details>
         <details><summary>كم يستغرق وصول الطلب؟</summary><p>الوقت يعتمد على المسافة وضغط الطلبات في نفس الوقت. نقول لك وقت الوصول المتوقع على واتساب أول ما نأكد لك الطلب.</p></details>
         <details><summary>وين أقرب نقطة توصيل لكم؟</summary><p>ما عندنا فروع نستقبل فيها الطلبات، نشتغل بمندوبين متنقلين يغطون كل مناطق الكويت الست، فالتغطية عندنا أوسع من نقطة وحدة.</p></details>
-        <details><summary>شلون أتابع العروض الجديدة؟</summary><p>تابعنا على انستجرام <a href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener noreferrer" style="color:var(--gold-soft)">@td.delivery1</a>، ننزل الخصومات والعروض هناك أول بأول.</p></details>
+        <details><summary>شلون أتابع العروض الجديدة؟</summary><p>تابعنا على انستجرام <a href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener noreferrer" class="link-gold">@td.delivery1</a>، ننزل الخصومات والعروض هناك أول بأول.</p></details>
       </div>
     </div>
   </section>
