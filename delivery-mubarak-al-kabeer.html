@@ -535,6 +535,19 @@ a.service{display:block;text-decoration:none;color:inherit}
 a.service:hover,a.service:focus-visible{border-color:var(--gold)}
 :root[data-mode="light"] .brand b span{color:var(--gold-soft)}
 .crumbs a,.prose a{text-decoration:underline;text-underline-offset:3px}
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
+@media (max-width:860px){.reviews{grid-template-columns:1fr}}
+.review{margin:0;padding:18px 20px;border-radius:16px;border:1px solid var(--soft);background:var(--tile)}
+.review-stars{color:var(--gold);letter-spacing:.1em;font-size:1.05rem}
+.review blockquote{margin:8px 0 10px;line-height:1.8}
+.review figcaption{color:var(--mist);font-size:.85rem}
+.reviews-empty{color:var(--mist);margin:0}
+.review-form{max-width:560px}
+.hp{position:absolute;inset-inline-start:-9999px;width:1px;height:1px;overflow:hidden}
+.admin-review{padding:16px 18px;border-radius:14px;border:1px solid var(--soft);background:var(--tile);margin-bottom:12px}
+.admin-review.is-approved{opacity:.75}
+.admin-meta{color:var(--mist);font-size:.85rem;margin:0 0 6px}
+.admin-actions{display:flex;gap:10px;flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -549,7 +562,7 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
 <header class="bar">
   <div class="wrap">
     <a class="brand" href="/" aria-label="Delivery.KW">
-      <picture><source srcset="assets/logo.webp" type="image/webp"><img src="assets/logo.png" alt="" width="42" height="42"></picture>
+      <picture><source srcset="assets/logo.webp" type="image/webp"><img src="assets/logo.png" alt="شعار Delivery.KW" width="42" height="42"></picture>
       <b>Delivery<span>.KW</span></b>
     </a>
     <nav aria-label="أقسام الموقع">

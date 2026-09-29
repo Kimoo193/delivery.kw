@@ -6,10 +6,17 @@
   Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), browsing-topics=()
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com 'sha256-L66eOny2KNpa8+RiCg3Se0M/gvPWnEOqLcCw6iTFGV8=' 'sha256-4YwzAzOaVpDafqsUIcB9T/3ZDl3PdvHDXqHyRzTIHfw='; style-src 'self' 'sha256-7PUIidyQXNy1JUb5zNo32tYZoEg1KtwFv7WM0R/a3oc='; img-src 'self'; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com 'sha256-L66eOny2KNpa8+RiCg3Se0M/gvPWnEOqLcCw6iTFGV8=' 'sha256-4YwzAzOaVpDafqsUIcB9T/3ZDl3PdvHDXqHyRzTIHfw='; style-src 'self' 'sha256-CQQ73m5OEpBVxCaxV+1xz9KLqWontDpYxN6eGjuDx2Y='; img-src 'self'; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests
 
 /assets/*
   Cache-Control: public, max-age=2592000, immutable
 
 https://delivery-kw.pages.dev/*
   X-Robots-Tag: noindex
+
+/admin
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store
+/api/*
+  X-Robots-Tag: noindex
+  Cache-Control: no-store

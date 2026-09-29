@@ -464,6 +464,19 @@ nf = re.sub(r'<meta name="robots" content="[^"]*">', '<meta name="robots" conten
 nf = re.sub(r'<script type="application/ld\+json">.*?</script>\n', "", nf, flags=re.S)
 open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8").write(nf)
 
+# Admin (review moderation) page: not in sitemap, noindex
+adm = page("admin", "إدارة الآراء | Delivery.KW", "إدارة آراء العملاء.", "إدارة آراء العملاء",
+    "الآراء الجديدة تظهر هنا. اضغط موافقة ونشر عشان تظهر في الموقع، أو حذف.",
+    '  <section class="block flush">\n    <div class="wrap">\n      <p class="note" id="adminMsg" role="status"></p>\n      <div id="adminList"></div>\n    </div>\n  </section>',
+    [], [("الرئيسية", SITE + "/"), ("إدارة الآراء", SITE + "/admin")])
+adm = re.sub(r'<link rel="(canonical|alternate)"[^>]*>\n', "", adm)
+adm = re.sub(r'<meta (property="og:[^"]*"|name="twitter:[^"]*")[^>]*>\n', "", adm)
+adm = re.sub(r'<meta name="robots" content="[^"]*">', '<meta name="robots" content="noindex, nofollow">', adm)
+adm = re.sub(r'<script type="application/ld\+json">.*?</script>\n', "", adm, flags=re.S)
+adm = re.sub(r'  <section class="block flush" id="faq">.*?</section>\n', "", adm, flags=re.S)
+adm = adm.replace("</body>", '<script src="/assets/admin.js?v=1" defer></script>\n</body>')
+open(os.path.join(ROOT, "admin.html"), "w", encoding="utf-8").write(adm)
+
 # sitemap
 urls = [("/", "1.0")] + [(f"/{s}", "0.8") for s in pages]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
