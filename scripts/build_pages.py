@@ -447,6 +447,20 @@ for slug, content in pages.items():
     with open(os.path.join(ROOT, slug + ".html"), "w", encoding="utf-8") as f:
         f.write(content)
 
+# 404 page (not in sitemap; noindex, no canonical)
+nf_body = section("روابط مفيدة", "جرّب واحدة من هذي الصفحات",
+    '      <div class="plinks">\n' + "".join(f'        <a href="/{g["slug"]}">{esc(g["name"])}</a>\n' for g in GOVS)
+    + "".join(f'        <a href="/{a["slug"]}">{esc(a["card"])}</a>\n' for a in ARTICLES) + "      </div>")
+nf = page("404", "الصفحة غير موجودة | Delivery.KW", "الصفحة المطلوبة غير موجودة على Delivery.KW.",
+    "الصفحة غير موجودة", "الرابط اللي فتحته غير موجود أو تم تغييره. ارجع للصفحة الرئيسية أو راسلنا على واتساب ونرتب لك مندوب توصيل.",
+    nf_body, [("شلون أطلب مندوب توصيل؟", "راسلنا على واتساب 99454818 بمنطقة الاستلام والتسليم ونوع الطلب.")],
+    [("الرئيسية", SITE + "/"), ("الصفحة غير موجودة", SITE + "/404")])
+nf = re.sub(r'<link rel="(canonical|alternate)"[^>]*>\n', "", nf)
+nf = re.sub(r'<meta property="og:url"[^>]*>\n', "", nf)
+nf = re.sub(r'<meta name="robots" content="[^"]*">', '<meta name="robots" content="noindex, follow">', nf)
+nf = re.sub(r'<script type="application/ld\+json">.*?</script>\n', "", nf, flags=re.S)
+open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8").write(nf)
+
 # sitemap
 urls = [("/", "1.0")] + [(f"/{s}", "0.8") for s in pages]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(

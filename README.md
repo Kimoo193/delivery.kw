@@ -7,27 +7,37 @@
 
 ## التشغيل
 
-الصفحة ملف واحد `index.html` مع مجلد `assets/`. افتحها مباشرة في المتصفح أو انشرها على GitHub Pages:
-Settings → Pages → Deploy from a branch → اختر الفرع والمجلد `/ (root)`.
+الموقع صفحات HTML ثابتة مع مجلد `assets/`:
+
+- `index.html`: الصفحة الرئيسية (تُعدّل يدوياً).
+- صفحات المحافظات والمقالات والدليل وصفحة `404.html` و`sitemap.xml` تتولّد من `scripts/build_pages.py`، اللي يعيد استخدام كتلة `<style>` من `index.html`. بعد أي تعديل على المحتوى أو على `<style>`:
+
+```bash
+python3 scripts/build_pages.py
+```
 
 ## النشر على Cloudflare Pages
 
-1. من [dash.cloudflare.com](https://dash.cloudflare.com): **Workers & Pages → Create → Pages → Connect to Git**.
-2. اختر الريبو `Kimoo193/delivery.kw` والفرع `claude/kuwait-delivery-page-5h7juu` (هذا هو الفرع الافتراضي في الريبو حالياً — تقدر تتأكد من GitHub → Settings → Branches. إذا رجّعت `main` يكون الفرع الافتراضي بدل كذا، اختره هو).
-3. **مهم:** سمّي المشروع `delivery-kw` بالضبط (Project name). كل روابط SEO في الموقع (canonical، og:url، sitemap.xml، robots.txt) مضبوطة مسبقاً على `https://delivery-kw.pages.dev/` — إذا سمّيت المشروع شي ثاني لازم تسوي find-and-replace لنفس الروابط.
-4. الإعدادات: **Framework preset: None**، **Build command: فاضي**، **Build output directory: `/`**.
-5. اضغط **Save and Deploy**. الموقع يطلع على `https://delivery-kw.pages.dev` وأي رفع على `main` يتحدث تلقائياً.
-6. إذا ضفت دومين خاص لاحقاً (مثل delivery.kw): حدّث نفس الروابط (canonical، og:url، JSON-LD، sitemap.xml، robots.txt) للدومين الجديد.
+- الدومين: `https://deliverykw.com` (كل روابط SEO: canonical، og:url، JSON-LD، sitemap.xml، robots.txt، llms.txt مضبوطة عليه).
+- `www.deliverykw.com` يتحوّل 301 إلى `https://deliverykw.com` (قاعدة Redirect في Cloudflare).
+- مشروع Pages اسمه `delivery-kw` ونوعه **Direct Upload**، يعني الرفع على GitHub **ما ينشر تلقائياً**. للنشر: جهّز مجلد فيه ملفات الموقع فقط (بدون `.git` و`scripts` و`.wrangler`) وشغّل:
+
+```bash
+npx wrangler pages deploy <المجلد> --project-name delivery-kw --branch main
+```
+
+- نسخة `delivery-kw.pages.dev` عليها `X-Robots-Tag: noindex` من `_headers` عشان ما تنافس الدومين في البحث.
 
 ### التحقق بعد النشر
 
-- `curl -I https://delivery-kw.pages.dev/` وتأكد إن `Content-Security-Policy` و`Strict-Transport-Security` موجودين في الرد.
+- `curl -I https://deliverykw.com/` وتأكد إن `Content-Security-Policy` و`Strict-Transport-Security` موجودين، وما في `X-Robots-Tag`.
+- `curl -I https://deliverykw.com/no-such-page` لازم يرجع 404.
 - افتح الموقع وجرّب: تبديل الوضع الداكن/الفاتح، نموذج تجهيز الطلب، وفتح صور المعرض (lightbox) — تأكد ما في أخطاء CSP في Console.
-- سجّل الموقع في [Google Search Console](https://search.google.com/search-console) و[Bing Webmaster Tools](https://www.bing.com/webmasters) وقدّم `sitemap.xml`.
+- الموقع مسجّل في Google Search Console (خاصية Domain وخاصية URL)، و`sitemap.xml` مقدَّم. للصفحات الجديدة يُرسل IndexNow بالمفتاح الموجود في ملف `<key>.txt` بجذر الموقع.
 
 ## الأمان: CSP بـ hashes
 
-ملف `_headers` يستخدم Content-Security-Policy صارم بدون `'unsafe-inline'` — كل `<script>` و`<style>` داخل `index.html` مسموح له فقط عن طريق SHA-256 hash محدد بالاسم. **إذا عدّلت أي كود داخل `<script>...</script>` أو `<style>...</style>` في `index.html`، لازم تولّد الـ hash الجديد وتحدّثه في `_headers`**، وإلا المتصفح بيمنع الكود المعدّل من الشغل:
+ملف `_headers` يستخدم Content-Security-Policy صارم بدون `'unsafe-inline'` — كل `<script>` و`<style>` داخل صفحات الموقع مسموح له فقط عن طريق SHA-256 hash محدد بالاسم. **إذا عدّلت أي كود داخل `<script>...</script>` أو `<style>...</style>` في `index.html`، لازم تولّد الـ hash الجديد وتحدّثه في `_headers`**، وإلا المتصفح بيمنع الكود المعدّل من الشغل:
 
 ```bash
 python3 -c "
@@ -68,8 +78,8 @@ im.save('assets/NAME.webp', 'WEBP', quality=80, method=6)"
 يحتاج Node.js 18 أو أحدث. كل "زائر" يفتح الصفحة وكل الصور مثل المتصفح:
 
 ```bash
-node scripts/loadtest.mjs https://<اسم-المشروع>.pages.dev 100 30
-node scripts/loadtest.mjs https://<اسم-المشروع>.pages.dev 300 30
+node scripts/loadtest.mjs https://deliverykw.com 100 30
+node scripts/loadtest.mjs https://deliverykw.com 300 30
 ```
 
 الرقم الثاني = عدد الزوار في نفس اللحظة، والثالث = عدد الثواني. شغّله على موقعك أنت بس، وابدأ بأرقام صغيرة.

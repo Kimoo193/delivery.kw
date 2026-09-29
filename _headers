@@ -10,3 +10,6 @@
 
 /assets/*
   Cache-Control: public, max-age=2592000, immutable
+
+https://delivery-kw.pages.dev/*
+  X-Robots-Tag: noindex
