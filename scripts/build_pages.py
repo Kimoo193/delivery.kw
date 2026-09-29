@@ -438,12 +438,13 @@ for art in ARTICLES:
       </div>
     </div>
   </section>"""
-    pages[art["slug"]] = page(
+    art_html = page(
         art["slug"], art["title"], art["desc"], art["h1"], art["lead"], secs + "\n" + tail, art["faqs"],
         [("الرئيسية", SITE + "/"), ("مقالات", SITE + "/#articles"), (art["card"], f"{SITE}/{art['slug']}")],
         {"@type": "Article", "headline": art["h1"], "inLanguage": "ar-KW", "description": art["desc"],
          "author": {"@id": SITE + "/#business"}, "publisher": {"@id": SITE + "/#business"},
          "datePublished": TODAY, "dateModified": TODAY, "mainEntityOfPage": f"{SITE}/{art['slug']}"})
+    pages[art["slug"]] = art_html.replace('<p class="lead">', f'<p class="crumbs">آخر تحديث: <time datetime="{TODAY}">{TODAY}</time> · Delivery.KW</p>\n      <p class="lead">', 1)
 
 for slug, content in pages.items():
     with open(os.path.join(ROOT, slug + ".html"), "w", encoding="utf-8") as f:

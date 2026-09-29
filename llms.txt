@@ -26,3 +26,6 @@
 - Clothes and accessories delivery: https://deliverykw.com/article-clothes-accessories-delivery
 - Delivery driver vs shipping companies: https://deliverykw.com/article-delivery-driver-vs-shipping
 - Guide to choosing a delivery driver: https://deliverykw.com/delivery-guide-kuwait
+
+## Pricing
+- Machine-readable pricing: https://deliverykw.com/pricing.md
