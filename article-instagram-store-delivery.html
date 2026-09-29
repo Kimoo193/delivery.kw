@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ar-KW" dir="rtl" data-mode="light">
+<html lang="ar-KW" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -104,8 +104,8 @@
  ]
 }
 </script>
-<meta name="theme-color" content="#F6F7FB">
-<script>try{if(localStorage.getItem('dkw-mode')==='dark')document.documentElement.removeAttribute('data-mode')}catch(e){}</script>
+<meta name="theme-color" content="#0A1733">
+<script>try{if(localStorage.getItem('dkw-mode')==='light')document.documentElement.setAttribute('data-mode','light')}catch(e){}</script>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" href="/assets/favicon-48.png" sizes="48x48">
 <link rel="icon" type="image/png" href="/assets/favicon-32.png" sizes="32x32">
@@ -141,7 +141,7 @@
     --gold-fill:#E4B447;
     --on-gold:#0A1733;
     --glass:rgba(10,23,51,.9);
-    --field:var(--field);
+    --field:#0E2150;
     --soft:rgba(174,185,214,.2);
     --tile:rgba(16,38,94,.5);
     --strip-mid:#0D1F4C;
@@ -222,7 +222,7 @@
     border:0;cursor:pointer;font-family:var(--body);transition:transform .15s ease, box-shadow .15s ease}
   .btn:hover{transform:translateY(-2px)}
   .btn svg{width:22px;height:22px;flex:none}
-  .btn-wa{background:var(--wa);color:var(--wa-ink);box-shadow:0 10px 28px -10px rgba(37,211,102,.7)}
+  .btn-wa{background:var(--wa);color:var(--wa-ink);box-shadow:0 10px 22px -12px rgba(0,0,0,.55)}
   .btn-ig{background:transparent;color:var(--sand);border:1.5px solid var(--line)}
   .btn-ig:hover{border-color:var(--gold)}
   .btn-sm{padding:9px 14px;font-size:.9rem;border-radius:11px}
@@ -358,7 +358,7 @@
   /* floating whatsapp */
   .fab{position:fixed;inset-inline-start:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:30;
     width:60px;height:60px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;
-    box-shadow:0 12px 30px -8px rgba(37,211,102,.8)}
+    box-shadow:0 12px 26px -10px rgba(0,0,0,.6)}
   .fab svg{width:32px;height:32px}
   .fab::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--wa);animation:ping 2.4s ease-out 3 forwards}
   @keyframes ping{from{transform:scale(1);opacity:.8}to{transform:scale(1.6);opacity:0}}
@@ -476,7 +476,7 @@ a.area{display:block;text-decoration:none;color:inherit}
 .prose p{color:var(--mist);margin:0 0 14px;line-height:1.9}
 .prose ul{margin:0 0 14px;padding-inline-start:22px;color:var(--mist);line-height:1.9}
 .prose a{color:var(--gold-soft)}
-.prose blockquote{margin:0 0 14px;padding:14px 16px;border-inline-start:3px solid var(--gold);background:var(--tile);border-radius:12px;line-height:1.9}
+.prose blockquote{margin:0 0 14px;padding:14px 16px;border:1px solid var(--line);background:var(--tile);border-radius:12px;line-height:1.9}
 a.service{display:block;text-decoration:none;color:inherit}
 a.service:hover,a.service:focus-visible{border-color:var(--gold)}
 :root[data-mode="light"] .brand b span{color:var(--gold-soft)}
@@ -494,6 +494,24 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
 .admin-review.is-approved{opacity:.75}
 .admin-meta{color:var(--mist);font-size:.85rem;margin:0 0 6px}
 .admin-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-review{background:var(--gold-fill);color:var(--on-gold);width:100%}
+.btn-review:disabled{opacity:.6;cursor:progress}
+.review-form .note{margin-top:10px}
+.review-form .note.bad{color:var(--err)}
+.strip ul{margin-inline:auto;max-width:1120px}
+.copy{min-height:44px;padding:8px 14px}
+.chips label{min-height:44px;padding:10px 16px;display:inline-flex;align-items:center}
+.mode{width:44px;height:44px}
+.bar nav a{padding-block:10px}
+.service h3{font-family:var(--body);font-weight:700;font-size:1.08rem}
+.faq details p,.prose p,.prose ul{max-width:70ch}
+.phero .lead{max-width:62ch}
+.card{box-shadow:0 18px 32px -24px var(--shadow)}
+.chips-list li a{display:inline-flex;align-items:center;min-height:44px;margin:-8px -14px;padding:8px 14px;border-radius:999px;color:inherit;text-decoration:none}
+.chips-list li:has(a):hover{border-color:var(--gold)}
+.chips-list li a:focus-visible{outline-offset:2px}
+.phero .btn-wa svg{width:20px;height:20px}
+@media (max-width:760px){.hero .phone{display:none}.hero .perks li:nth-child(n+3){display:none}}
 </style>
 </head>
 <body>
@@ -518,7 +536,11 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
       <a href="/instagram-stores-delivery">للمتاجر</a>
     </nav>
     <div class="end">
-      <a class="btn btn-wa btn-sm" href="https://wa.me/96599454818" target="_blank" rel="noopener noreferrer">واتساب</a>
+      <button class="mode" type="button" id="modeBtn" aria-label="الوضع الفاتح" aria-pressed="false">
+        <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <a class="btn btn-wa btn-sm" href="https://wa.me/96599454818?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%A8%D9%8A%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AA%D9%88%D8%B5%D9%8A%D9%84%20%D9%85%D8%B9%20Delivery.KW" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-wa"/></svg>واتساب</a>
     </div>
   </div>
 </header>
@@ -530,8 +552,8 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
       <p class="crumbs">آخر تحديث: <time datetime="2026-09-29">2026-09-29</time> · Delivery.KW</p>
       <p class="lead">لو عندك متجر على انستجرام أو مشروع من البيت، التوصيل المنظم يفرق في رضا العملاء وتكرار الطلب. هذي طريقة بسيطة ترتب فيها طلباتك.</p>
       <div class="cta-row">
-        <a class="btn btn-wa" href="https://wa.me/96599454818?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%A8%D9%8A%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AA%D9%88%D8%B5%D9%8A%D9%84%20%D9%85%D8%B9%20Delivery.KW" target="_blank" rel="noopener noreferrer">اطلب عبر واتساب</a>
-        <a class="btn btn-ig" href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener noreferrer">تابعنا على انستجرام</a>
+        <a class="btn btn-wa" href="https://wa.me/96599454818?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%A8%D9%8A%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AA%D9%88%D8%B5%D9%8A%D9%84%20%D9%85%D8%B9%20Delivery.KW" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-wa"/></svg>اطلب عبر واتساب</a>
+        <a class="btn btn-ig" href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-ig"/></svg>تابعنا على انستجرام</a>
       </div>
     </div>
   </section>
@@ -619,5 +641,16 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
     <p class="sign">تصميم وتطوير <a href="https://kimoo193.github.io/portfolio/" target="_blank" rel="noopener">كريم مرسي</a> · Designed &amp; developed by <a href="https://kimoo193.github.io/portfolio/" target="_blank" rel="noopener">Kareem Moursy</a></p>
   </div>
 </footer>
+
+<a class="fab" href="https://wa.me/96599454818?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%A8%D9%8A%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AA%D9%88%D8%B5%D9%8A%D9%84%20%D9%85%D8%B9%20Delivery.KW" target="_blank" rel="noopener noreferrer" aria-label="تواصل عبر واتساب">
+  <svg aria-hidden="true"><use href="#i-wa"/></svg>
+</a>
+
+<nav class="dock" aria-label="تواصل سريع">
+  <a class="wa" href="https://wa.me/96599454818?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%A8%D9%8A%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AA%D9%88%D8%B5%D9%8A%D9%84%20%D9%85%D8%B9%20Delivery.KW" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-wa"/></svg>اطلب واتساب</a>
+  <a href="tel:+96599454818"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1Z" fill="currentColor"/></svg>اتصال</a>
+  <a href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-ig"/></svg>انستجرام</a>
+</nav>
+<script src="/assets/site.js?v=1" defer></script>
 </body>
 </html>

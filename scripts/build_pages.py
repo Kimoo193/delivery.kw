@@ -19,6 +19,8 @@ STYLE = re.search(r"<style>.*?</style>", idx, re.S).group(0)
 THEME = re.search(r"<script>try\{if\(localStorage.*?</script>", idx, re.S).group(0)
 DEFS = re.search(r'<svg class="svg-defs".*?</svg>', idx, re.S).group(0)
 LOGO = re.search(r'<a class="brand".*?</a>', idx, re.S).group(0)
+MODE_BTN = re.search(r'<button class="mode".*?</button>', idx, re.S).group(0)
+DOCK = re.search(r'<a class="fab js-wa".*?</nav>', idx, re.S).group(0)
 
 GOVS = [
     dict(slug="delivery-capital", name="العاصمة", main="مدينة الكويت", title="مندوب توصيل العاصمة ومدينة الكويت",
@@ -68,8 +70,10 @@ def wa_link(text):
     return WA + "?text=" + urllib.parse.quote(text)
 
 
-def page(slug, title, desc, h1, lead, body, faqs, breadcrumb, extra_ld=None):
+def page(slug, title, desc, h1, lead, body, faqs, breadcrumb, extra_ld=None, wa_text="السلام عليكم، أبي أطلب توصيل مع Delivery.KW"):
     url = f"{SITE}/{slug}"
+    wa = wa_link(wa_text)
+    dock = DOCK.replace(' js-wa"', '"').replace('href="https://wa.me/96599454818"', f'href="{wa}"')
     ld = [
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": i + 1, "name": n, "item": u}
@@ -86,7 +90,7 @@ def page(slug, title, desc, h1, lead, body, faqs, breadcrumb, extra_ld=None):
     crumbs = " › ".join(f'<a href="{u}">{esc(n)}</a>' if i < len(breadcrumb) - 1 else esc(n)
                         for i, (n, u) in enumerate(breadcrumb))
     return f"""<!doctype html>
-<html lang="ar-KW" dir="rtl" data-mode="light">
+<html lang="ar-KW" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -107,7 +111,7 @@ def page(slug, title, desc, h1, lead, body, faqs, breadcrumb, extra_ld=None):
 <script type="application/ld+json">
 {ldjson}
 </script>
-<meta name="theme-color" content="#F6F7FB">
+<meta name="theme-color" content="#0A1733">
 {THEME}
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" href="/assets/favicon-48.png" sizes="48x48">
@@ -130,7 +134,8 @@ def page(slug, title, desc, h1, lead, body, faqs, breadcrumb, extra_ld=None):
       <a href="/instagram-stores-delivery">للمتاجر</a>
     </nav>
     <div class="end">
-      <a class="btn btn-wa btn-sm" href="{WA}" target="_blank" rel="noopener noreferrer">واتساب</a>
+      {MODE_BTN}
+      <a class="btn btn-wa btn-sm" href="{wa}" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-wa"/></svg>واتساب</a>
     </div>
   </div>
 </header>
@@ -141,8 +146,8 @@ def page(slug, title, desc, h1, lead, body, faqs, breadcrumb, extra_ld=None):
       <h1>{esc(h1)}</h1>
       <p class="lead">{esc(lead)}</p>
       <div class="cta-row">
-        <a class="btn btn-wa" href="{wa_link('السلام عليكم، أبي أطلب توصيل مع Delivery.KW')}" target="_blank" rel="noopener noreferrer">اطلب عبر واتساب</a>
-        <a class="btn btn-ig" href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener noreferrer">تابعنا على انستجرام</a>
+        <a class="btn btn-wa" href="{wa}" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-wa"/></svg>اطلب عبر واتساب</a>
+        <a class="btn btn-ig" href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-ig"/></svg>تابعنا على انستجرام</a>
       </div>
     </div>
   </section>
@@ -161,7 +166,7 @@ def page(slug, title, desc, h1, lead, body, faqs, breadcrumb, extra_ld=None):
     <div class="wrap">
       <div class="head"><h2>مناطق أخرى نوصل لها</h2></div>
       <div class="plinks">
-{"".join(f'        <a href="/{g["slug"]}">{esc(g["name"])}</a>' + chr(10) for g in GOVS)}        <a href="/instagram-stores-delivery">متاجر انستجرام والمشاريع</a>
+{"".join(f'        <a href="/{g["slug"]}">{esc(g["name"])}</a>' + chr(10) for g in GOVS if g["slug"] != slug)}        <a href="/instagram-stores-delivery">متاجر انستجرام والمشاريع</a>
         <a href="/delivery-guide-kuwait">دليل اختيار مندوب توصيل</a>
         <a href="/">كل مناطق الكويت</a>
       </div>
@@ -175,6 +180,9 @@ def page(slug, title, desc, h1, lead, body, faqs, breadcrumb, extra_ld=None):
     <p class="sign">تصميم وتطوير <a href="https://kimoo193.github.io/portfolio/" target="_blank" rel="noopener">كريم مرسي</a> · Designed &amp; developed by <a href="https://kimoo193.github.io/portfolio/" target="_blank" rel="noopener">Kareem Moursy</a></p>
   </div>
 </footer>
+
+{dock}
+<script src="/assets/site.js?v=1" defer></script>
 </body>
 </html>
 """
@@ -213,10 +221,10 @@ for g in GOVS:
               f"من {a[2] if len(a) > 2 else a[0]} إلى {others[2]['areas'][0]}", f"من {others[3]['areas'][0]} إلى {a[3] if len(a) > 3 else a[0]}"]
     body = "\n".join([
         section("مناطق التغطية", f"مناطق {n} اللي نوصل لها",
-                '      <ul class="chips-list">\n' + "".join(f"        <li>{esc(x)}</li>\n" for x in a) + "      </ul>",
+                '      <ul class="chips-list">\n' + "".join(f'        <li><a href="{wa_link("السلام عليكم، أبي مندوب توصيل في " + x)}" target="_blank" rel="noopener noreferrer">{esc(x)}</a></li>\n' for x in a) + "      </ul>",
                 f"هذي أبرز {len(a)} منطقة نغطيها في محافظة {n}. إذا منطقتك مو مكتوبة راسلنا على واتساب ونأكد لك التغطية."),
         section("مسارات نوصلها", f"توصيل من وإلى {n}",
-                '      <ul class="chips-list">\n' + "".join(f"        <li>{esc(x)}</li>\n" for x in routes) + "      </ul>",
+                '      <ul class="chips-list">\n' + "".join(f'        <li><a href="{wa_link("السلام عليكم، أبي توصيل " + x)}" target="_blank" rel="noopener noreferrer">{esc(x)}</a></li>\n' for x in routes) + "      </ul>",
                 f"أمثلة على طلبات نوصلها بين {n} وباقي المحافظات، والسعر حسب المسافة ونأكده لك قبل الاستلام."),
         section("خدماتنا", f"شنو نوصل في {n}؟", services_html()),
         section("طريقة الطلب", "ثلاث خطوات ويوصل طلبك", steps_html()),
@@ -235,7 +243,8 @@ for g in GOVS:
         g["slug"], f"{g['title']} 24 ساعة | Delivery.KW",
         f"{g['title']} على مدار 24 ساعة. توصيل أغراض وهدايا وطلبات متاجر من الباب للباب في {n}: " + "، ".join(a[:5]) + ". اطلب عبر واتساب 99454818.",
         f"{g['title']} 24 ساعة", g["intro"], body, faqs,
-        [("الرئيسية", SITE + "/"), (f"توصيل {n}", f"{SITE}/{g['slug']}")], ld)
+        [("الرئيسية", SITE + "/"), (f"توصيل {n}", f"{SITE}/{g['slug']}")], ld,
+        wa_text=f"السلام عليكم، أبي مندوب توصيل في {n}")
 
 # Instagram stores / small business page
 store_faqs = [
@@ -270,7 +279,8 @@ pages["instagram-stores-delivery"] = page(
     store_body, store_faqs,
     [("الرئيسية", SITE + "/"), ("توصيل متاجر انستجرام", SITE + "/instagram-stores-delivery")],
     {"@type": "Service", "serviceType": "توصيل طلبات المتاجر والمشاريع", "name": "توصيل طلبات متاجر انستجرام والمشاريع المنزلية",
-     "provider": {"@id": SITE + "/#business"}, "areaServed": {"@type": "Country", "name": "الكويت"}})
+     "provider": {"@id": SITE + "/#business"}, "areaServed": {"@type": "Country", "name": "الكويت"}},
+    wa_text="السلام عليكم، عندي متجر وأبي أسأل عن توصيل الطلبات")
 
 
 # Guide page
@@ -474,6 +484,7 @@ adm = re.sub(r'<meta (property="og:[^"]*"|name="twitter:[^"]*")[^>]*>\n', "", ad
 adm = re.sub(r'<meta name="robots" content="[^"]*">', '<meta name="robots" content="noindex, nofollow">', adm)
 adm = re.sub(r'<script type="application/ld\+json">.*?</script>\n', "", adm, flags=re.S)
 adm = re.sub(r'  <section class="block flush" id="faq">.*?</section>\n', "", adm, flags=re.S)
+adm = re.sub(r'<a class="fab".*?</nav>\n', "", adm, flags=re.S)
 adm = adm.replace("</body>", '<script src="/assets/admin.js?v=1" defer></script>\n</body>')
 open(os.path.join(ROOT, "admin.html"), "w", encoding="utf-8").write(adm)
 
