@@ -114,6 +114,8 @@ def page(slug, title, desc, h1, lead, body, faqs, breadcrumb, extra_ld=None):
 <link rel="icon" type="image/png" href="/assets/favicon-32.png" sizes="32x32">
 <link rel="icon" type="image/png" href="/assets/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/readex-pro-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/reem-kufi-arabic.woff2" as="font" type="font/woff2" crossorigin>
 {STYLE}
 </head>
 <body>

@@ -118,6 +118,8 @@
 <link rel="icon" type="image/png" href="/assets/favicon-32.png" sizes="32x32">
 <link rel="icon" type="image/png" href="/assets/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/readex-pro-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/reem-kufi-arabic.woff2" as="font" type="font/woff2" crossorigin>
 <style>
   @font-face{font-family:"Readex Pro";font-style:normal;font-weight:300 700;font-display:swap;
     src:url("assets/fonts/readex-pro-arabic.woff2") format("woff2");
@@ -484,6 +486,8 @@ a.area{display:block;text-decoration:none;color:inherit}
 .prose blockquote{margin:0 0 14px;padding:14px 16px;border-inline-start:3px solid var(--gold);background:var(--tile);border-radius:12px;line-height:1.9}
 a.service{display:block;text-decoration:none;color:inherit}
 a.service:hover,a.service:focus-visible{border-color:var(--gold)}
+:root[data-mode="light"] .brand b span{color:var(--gold-soft)}
+.crumbs a,.prose a{text-decoration:underline;text-underline-offset:3px}
 </style>
 </head>
 <body>
