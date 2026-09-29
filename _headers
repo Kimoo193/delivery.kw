@@ -6,7 +6,7 @@
   Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), browsing-topics=()
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-L66eOny2KNpa8+RiCg3Se0M/gvPWnEOqLcCw6iTFGV8=' 'sha256-4YwzAzOaVpDafqsUIcB9T/3ZDl3PdvHDXqHyRzTIHfw='; style-src 'self' 'sha256-YdyjPy8PLAFkmzt9r088SmVT7gUjOVo9aSkQPNqqgko='; img-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-L66eOny2KNpa8+RiCg3Se0M/gvPWnEOqLcCw6iTFGV8=' 'sha256-4YwzAzOaVpDafqsUIcB9T/3ZDl3PdvHDXqHyRzTIHfw='; style-src 'self' 'sha256-JUIq1AxFyXpq2/O2nQbpq8oWdlb+jBBktDqBi9cf6WI='; img-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests
 
 /assets/*
   Cache-Control: public, max-age=2592000, immutable

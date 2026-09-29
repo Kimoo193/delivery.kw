@@ -371,6 +371,14 @@
       "@type": "Answer",
       "text": "Yes. Delivery.KW is a door-to-door courier and delivery-driver service covering all six governorates of Kuwait, 24 hours a day. Message us on WhatsApp at +965 99454818 with the pickup and drop-off areas and we confirm the price and arrival time before pickup."
      }
+    },
+    {
+     "@type": "Question",
+     "name": "شنو رقم مندوب توصيل الكويت؟",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "رقم Delivery.KW للطلب والاتصال هو 99454818 (واتساب واتصال). راسلنا في أي وقت على مدار 24 ساعة بموقع الاستلام والتسليم ونرتب لك مندوب توصيل."
+     }
     }
    ]
   }
@@ -728,6 +736,18 @@
 footer .sign{flex-basis:100%;margin:6px 0 0;padding-top:12px;border-top:1px solid var(--line);text-align:center;font-size:.8rem}
 footer .sign a{color:var(--gold-soft);text-decoration:none;font-weight:600}
 footer .sign a:hover,footer .sign a:focus-visible{text-decoration:underline}
+.phero{padding-block:44px 28px}
+.phero .wrap{max-width:820px}
+.phero h1{font-size:clamp(1.9rem,4.6vw,3rem);font-weight:700;margin-bottom:12px}
+.phero .lead{color:var(--mist);font-size:1.08rem;margin:0 0 22px}
+.crumbs{font-size:.85rem;color:var(--mist);margin:0 0 14px}
+.crumbs a{color:var(--gold-soft);text-decoration:none}
+.chips-list{display:flex;flex-wrap:wrap;gap:10px;padding:0;margin:0;list-style:none}
+.chips-list li{padding:8px 14px;border-radius:999px;border:1px solid var(--soft);background:var(--tile);font-size:.95rem}
+.plinks{display:flex;flex-wrap:wrap;gap:10px}
+.plinks a{padding:9px 16px;border-radius:999px;border:1px solid var(--soft);background:var(--tile);text-decoration:none;font-size:.95rem}
+.plinks a:hover,.plinks a:focus-visible{border-color:var(--gold);color:var(--gold-soft)}
+a.area{display:block;text-decoration:none;color:inherit}
 </style>
 </head>
 <body>
@@ -914,12 +934,12 @@ footer .sign a:hover,footer .sign a:focus-visible{text-decoration:underline}
         <p>مندوب توصيل في كل محافظات الكويت الست، من الجهراء إلى الأحمدي، على مدار 24 ساعة.</p>
       </div>
       <div class="areas">
-        <div class="area"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>العاصمة</b><span>مدينة الكويت، الشويخ، الدسمة، كيفان، الشامية</span></div>
-        <div class="area"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>حولي</b><span>السالمية، الجابرية، حولي، الرميثية، مشرف</span></div>
-        <div class="area"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>الفروانية</b><span>الفروانية، خيطان، جليب الشيوخ، العارضية، الرابية</span></div>
-        <div class="area"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>مبارك الكبير</b><span>صباح السالم، القرين، العدان، المسيلة، أبو فطيرة</span></div>
-        <div class="area"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>الأحمدي</b><span>الفحيحيل، المنقف، المهبولة، الصباحية، صباح الأحمد</span></div>
-        <div class="area"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>الجهراء</b><span>الجهراء، سعد العبدالله، القصر، العيون، النسيم</span></div>
+        <a class="area" href="/delivery-capital"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>العاصمة</b><span>مدينة الكويت، الشويخ، الدسمة، كيفان، الشامية</span></a>
+        <a class="area" href="/delivery-hawalli"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>حولي</b><span>السالمية، الجابرية، حولي، الرميثية، مشرف</span></a>
+        <a class="area" href="/delivery-farwaniya"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>الفروانية</b><span>الفروانية، خيطان، جليب الشيوخ، العارضية، الرابية</span></a>
+        <a class="area" href="/delivery-mubarak-al-kabeer"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>مبارك الكبير</b><span>صباح السالم، القرين، العدان، المسيلة، أبو فطيرة</span></a>
+        <a class="area" href="/delivery-ahmadi"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>الأحمدي</b><span>الفحيحيل، المنقف، المهبولة، الصباحية، صباح الأحمد</span></a>
+        <a class="area" href="/delivery-jahra"><b><svg aria-hidden="true"><use href="#i-pin"/></svg>الجهراء</b><span>الجهراء، سعد العبدالله، القصر، العيون، النسيم</span></a>
       </div>
     </div>
   </section>
@@ -930,6 +950,7 @@ footer .sign a:hover,footer .sign a:focus-visible{text-decoration:underline}
         <div>
           <h2>أسعار خاصة للمشاريع الصغيرة والمتوسطة</h2>
           <p>عندك متجر انستجرام أو مشروع من البيت؟ خلّنا نوصل طلباتك لعملائك يوميًا بسعر ثابت ومندوب تعرفه.</p>
+          <a class="btn" href="/instagram-stores-delivery">تفاصيل توصيل المتاجر</a>
           <a class="btn js-wa-biz" href="https://wa.me/96599454818" target="_blank" rel="noopener noreferrer">
             <svg aria-hidden="true"><use href="#i-wa"/></svg>اسأل عن أسعار المشاريع
           </a>
@@ -983,6 +1004,7 @@ footer .sign a:hover,footer .sign a:focus-visible{text-decoration:underline}
         <details><summary>توصلون هدايا وملابس وإكسسوارات؟</summary><p>إيه، نوصل الهدايا والملابس والإكسسوارات وطلبات المطاعم والأغراض الشخصية من الباب للباب بين أي منطقتين داخل الكويت.</p></details>
         <details><summary>تقدرون توصلون بعد منتصف الليل أو في الإجازات؟</summary><p>خدمتنا 24 ساعة طول الأسبوع. راسلنا على واتساب في أي وقت ونرتب لك المندوب حسب الوقت اللي يناسبك.</p></details>
         <details><summary>Do you offer 24/7 courier delivery in Kuwait?</summary><p>Yes. Delivery.KW is a door-to-door courier and delivery-driver service covering all six governorates of Kuwait, 24 hours a day. Message us on WhatsApp at +965 99454818 with the pickup and drop-off areas and we confirm the price and arrival time before pickup.</p></details>
+        <details><summary>شنو رقم مندوب توصيل الكويت؟</summary><p>رقم Delivery.KW للطلب والاتصال هو 99454818 (واتساب واتصال). راسلنا في أي وقت على مدار 24 ساعة بموقع الاستلام والتسليم ونرتب لك مندوب توصيل.</p></details>
         <details><summary>شلون أتابع العروض الجديدة؟</summary><p>تابعنا على انستجرام <a href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener noreferrer" class="link-gold">@td.delivery1</a>، ننزل الخصومات والعروض هناك أول بأول.</p></details>
       </div>
     </div>

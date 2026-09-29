@@ -1,0 +1,279 @@
+#!/usr/bin/env python3
+"""Generate the governorate + Instagram-stores landing pages from index.html.
+
+The pages are flat files in the repo root (Cloudflare Pages serves them at
+/delivery-hawalli etc.) so the relative assets/ URLs in the shared inline
+<style> keep working. They reuse index.html's exact <style> block, so the CSP
+hash in _headers stays valid. Re-run after editing that block, then refresh the
+hash (see README) and sitemap.
+"""
+import base64, hashlib, html, json, os, re, urllib.parse
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SITE = "https://deliverykw.com"
+WA = "https://wa.me/96599454818"
+TODAY = "2026-09-29"
+
+idx = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
+STYLE = re.search(r"<style>.*?</style>", idx, re.S).group(0)
+THEME = re.search(r"<script>try\{if\(localStorage.*?</script>", idx, re.S).group(0)
+DEFS = re.search(r'<svg class="svg-defs".*?</svg>', idx, re.S).group(0)
+LOGO = re.search(r'<a class="brand".*?</a>', idx, re.S).group(0)
+
+GOVS = [
+    dict(slug="delivery-capital", name="العاصمة", main="مدينة الكويت", title="مندوب توصيل العاصمة ومدينة الكويت",
+         areas=["مدينة الكويت", "الشرق", "القبلة", "دسمان", "الصالحية", "المرقاب", "بنيد القار", "الدعية", "الشويخ", "الدسمة", "كيفان", "الشامية", "القادسية", "قرطبة", "السرة", "اليرموك", "الخالدية", "الروضة", "العديلية", "الفيحاء", "النزهة", "المنصورية", "الصليبيخات", "الري", "غرناطة", "النهضة"],
+         intro="نوصل طلبات العاصمة من وإلى مدينة الكويت والشرق والقبلة والشويخ والدسمة وكيفان وباقي مناطق المحافظة. سواء عندك أغراض من مكتب أو محل في مدينة الكويت تبي توصلها لحد باب العميل، أو طلب جاي من محافظة ثانية لمنطقة في العاصمة، نرتب لك مندوب توصيل على مدار 24 ساعة.",
+         example=("الشويخ", "السالمية")),
+    dict(slug="delivery-hawalli", name="حولي", main="السالمية", title="مندوب توصيل حولي والسالمية",
+         areas=["حولي", "السالمية", "الجابرية", "الرميثية", "مشرف", "بيان", "سلوى", "الشعب", "الزهراء", "الصديق", "حطين", "السلام", "الشهداء", "ميدان حولي"],
+         intro="مندوب توصيل طلبات في حولي والسالمية والجابرية والرميثية ومشرف وبيان وسلوى وباقي مناطق محافظة حولي. المحافظة فيها ازدحام وأسواق ومحلات كثيرة، فنرتب لك استلام وتسليم من الباب للباب بدون ما تحتاج تطلع من مكانك، وعلى مدار 24 ساعة.",
+         example=("السالمية", "الجهراء")),
+    dict(slug="delivery-farwaniya", name="الفروانية", main="خيطان", title="مندوب توصيل الفروانية وخيطان",
+         areas=["الفروانية", "خيطان", "جليب الشيوخ", "العارضية", "الرابية", "الأندلس", "الرقعي", "العمرية", "الفردوس", "صباح الناصر", "الرحاب", "عبدالله المبارك", "اشبيلية", "الضجيج", "العباسية"],
+         intro="نوصل طلبات الفروانية من وإلى خيطان وجليب الشيوخ والعارضية والرابية والأندلس والرقعي وباقي مناطق المحافظة. إذا عندك طلب من الفروانية لأي منطقة ثانية في الكويت أو العكس، راسلنا وحدد الاستلام والتسليم ونأكد لك السعر ووقت وصول المندوب.",
+         example=("خيطان", "الفحيحيل")),
+    dict(slug="delivery-mubarak-al-kabeer", name="مبارك الكبير", main="صباح السالم", title="مندوب توصيل مبارك الكبير وصباح السالم",
+         areas=["صباح السالم", "القرين", "العدان", "المسيلة", "أبو فطيرة", "أبو الحصانية", "القصور", "الفنيطيس", "صبحان", "مبارك الكبير", "المسايل", "الوسطى"],
+         intro="مندوب توصيل في مبارك الكبير وصباح السالم والقرين والعدان والمسيلة وأبو فطيرة والقصور وباقي مناطق المحافظة. تقدر تطلب توصيل أغراض أو طلبات متجر من أي منطقة بالكويت لحد باب العميل في مبارك الكبير، في أي ساعة من اليوم.",
+         example=("صباح السالم", "حولي")),
+    dict(slug="delivery-ahmadi", name="الأحمدي", main="الفحيحيل", title="مندوب توصيل الأحمدي والفحيحيل والمنقف",
+         areas=["الأحمدي", "الفحيحيل", "المنقف", "المهبولة", "الصباحية", "أبو حليفة", "الفنطاس", "الرقة", "هدية", "العقيلة", "الظهر", "الوفرة", "الزور", "الخيران", "صباح الأحمد السكنية", "الجليعة", "الشعيبة"],
+         intro="نوصل طلبات الأحمدي من وإلى الفحيحيل والمنقف والمهبولة والصباحية وأبو حليفة والفنطاس والرقة وباقي مناطق المحافظة الجنوبية. المسافات في الأحمدي أطول، فنأكد لك السعر ووقت الوصول على واتساب قبل ما نستلم الطلب.",
+         example=("الفحيحيل", "الجهراء")),
+    dict(slug="delivery-jahra", name="الجهراء", main="الجهراء", title="مندوب توصيل الجهراء وسعد العبدالله",
+         areas=["الجهراء", "سعد العبدالله", "القصر", "العيون", "النسيم", "النعيم", "تيماء", "الواحة", "الصليبية", "أمغرة", "كبد", "العبدلي", "السالمي"],
+         intro="مندوب توصيل طلبات في الجهراء وسعد العبدالله والقصر والعيون والنسيم والنعيم وتيماء والواحة وباقي مناطق المحافظة. نوصل من وإلى الجهراء لأي منطقة بالكويت على مدار 24 ساعة، والسعر حسب المسافة نأكده لك قبل الاستلام.",
+         example=("الجهراء", "السالمية")),
+]
+
+SERVICES = [
+    ("توصيل أغراض شخصية", "ملابس وإكسسوارات وأغراض بين أي منطقتين داخل الكويت."),
+    ("توصيل هدايا", "نوصل الهدية لحد الباب في الموعد اللي تحدده."),
+    ("توصيل طلبات المطاعم", "اكتب لنا منطقة الاستلام والتسليم ونأكد لك السعر."),
+]
+
+STEPS = [
+    ("راسلنا على واتساب", "أرسل موقع الاستلام وموقع التسليم ونوع الطلب على الرقم 99454818."),
+    ("نأكد السعر والوقت", "نرد عليك بسعر التوصيل ووقت وصول المندوب قبل ما نستلم أي شي."),
+    ("نستلم ونسلّم", "المندوب يستلم من الباب ويسلّم للباب، والدفع كاش أو أونلاين."),
+]
+
+
+def esc(s):
+    return html.escape(s, quote=True)
+
+
+def wa_link(text):
+    return WA + "?text=" + urllib.parse.quote(text)
+
+
+def page(slug, title, desc, h1, lead, body, faqs, breadcrumb, extra_ld=None):
+    url = f"{SITE}/{slug}"
+    ld = [
+        {"@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": i + 1, "name": n, "item": u}
+            for i, (n, u) in enumerate(breadcrumb)]},
+        {"@type": "FAQPage", "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faqs]},
+        {"@type": "WebPage", "@id": url + "#page", "url": url, "name": title, "inLanguage": "ar-KW",
+         "isPartOf": {"@id": SITE + "/#website"}, "about": {"@id": SITE + "/#business"}},
+    ]
+    if extra_ld:
+        ld.append(extra_ld)
+    ldjson = json.dumps({"@context": "https://schema.org", "@graph": ld}, ensure_ascii=False, indent=1)
+    faq_html = "".join(f"        <details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>\n" for q, a in faqs)
+    crumbs = " › ".join(f'<a href="{u}">{esc(n)}</a>' if i < len(breadcrumb) - 1 else esc(n)
+                        for i, (n, u) in enumerate(breadcrumb))
+    return f"""<!doctype html>
+<html lang="ar-KW" dir="rtl" data-mode="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{esc(title)}</title>
+<meta name="description" content="{esc(desc)}">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<link rel="canonical" href="{url}">
+<link rel="alternate" hreflang="ar-kw" href="{url}">
+<link rel="alternate" hreflang="x-default" href="{url}">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_KW">
+<meta property="og:site_name" content="Delivery.KW">
+<meta property="og:url" content="{url}">
+<meta property="og:title" content="{esc(title)}">
+<meta property="og:description" content="{esc(desc)}">
+<meta property="og:image" content="{SITE}/assets/door-to-door.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{ldjson}
+</script>
+<meta name="theme-color" content="#F6F7FB">
+{THEME}
+<link rel="icon" href="assets/logo.png">
+<link rel="apple-touch-icon" href="assets/logo.png">
+{STYLE}
+</head>
+<body>
+{DEFS}
+<header class="bar">
+  <div class="wrap">
+    {LOGO.replace('href="#top"', 'href="/"')}
+    <nav aria-label="أقسام الموقع">
+      <a href="/">الرئيسية</a>
+      <a href="/#order">اطلب الحين</a>
+      <a href="/#areas">مناطق التوصيل</a>
+      <a href="/instagram-stores-delivery">للمتاجر</a>
+    </nav>
+    <div class="end">
+      <a class="btn btn-wa btn-sm" href="{WA}" target="_blank" rel="noopener noreferrer">واتساب</a>
+    </div>
+  </div>
+</header>
+<main>
+  <section class="phero">
+    <div class="wrap">
+      <p class="crumbs">{crumbs}</p>
+      <h1>{esc(h1)}</h1>
+      <p class="lead">{esc(lead)}</p>
+      <div class="cta-row">
+        <a class="btn btn-wa" href="{wa_link('السلام عليكم، أبي أطلب توصيل مع Delivery.KW')}" target="_blank" rel="noopener noreferrer">اطلب عبر واتساب</a>
+        <a class="btn btn-ig" href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener noreferrer">تابعنا على انستجرام</a>
+      </div>
+    </div>
+  </section>
+{body}
+  <section class="block flush" id="faq">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">أسئلة متكررة</p>
+        <h2>قبل ما تطلب</h2>
+      </div>
+      <div class="faq">
+{faq_html}      </div>
+    </div>
+  </section>
+  <section class="block flush">
+    <div class="wrap">
+      <div class="head"><h2>مناطق أخرى نوصل لها</h2></div>
+      <div class="plinks">
+{"".join(f'        <a href="/{g["slug"]}">{esc(g["name"])}</a>' + chr(10) for g in GOVS)}        <a href="/instagram-stores-delivery">متاجر انستجرام والمشاريع</a>
+        <a href="/">كل مناطق الكويت</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="wrap">
+    <span>© 2026 Delivery.KW · توصيل طلبات الكويت · مندوب توصيل 24 ساعة</span>
+    <span>واتساب <span class="num">+965 99454818</span></span>
+    <p class="sign">تصميم وتطوير <a href="https://kimoo193.github.io/portfolio/" target="_blank" rel="noopener">كريم مرسي</a> · Designed &amp; developed by <a href="https://kimoo193.github.io/portfolio/" target="_blank" rel="noopener">Kareem Moursy</a></p>
+  </div>
+</footer>
+</body>
+</html>
+"""
+
+
+def section(eyebrow, h2, inner, lead=""):
+    p = f"\n        <p>{esc(lead)}</p>" if lead else ""
+    return f"""  <section class="block flush">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">{esc(eyebrow)}</p>
+        <h2>{esc(h2)}</h2>{p}
+      </div>
+{inner}
+    </div>
+  </section>"""
+
+
+def services_html():
+    return '      <div class="services">\n' + "".join(
+        f'        <article class="service"><h3>{esc(t)}</h3><p>{esc(d)}</p></article>\n' for t, d in SERVICES) + "      </div>"
+
+
+def steps_html():
+    return '      <div class="steps">\n' + "".join(
+        f'        <div class="step"><h3>{esc(t)}</h3><p>{esc(d)}</p></div>\n' for t, d in STEPS) + "      </div>"
+
+
+pages = {}
+
+for g in GOVS:
+    n, others = g["name"], [x for x in GOVS if x is not g]
+    a = g["areas"]
+    ex_from, ex_to = g["example"]
+    routes = [f"من {a[0]} إلى {others[0]['areas'][0]}", f"من {others[1]['areas'][0]} إلى {a[1] if len(a) > 1 else a[0]}",
+              f"من {a[2] if len(a) > 2 else a[0]} إلى {others[2]['areas'][0]}", f"من {others[3]['areas'][0]} إلى {a[3] if len(a) > 3 else a[0]}"]
+    body = "\n".join([
+        section("مناطق التغطية", f"مناطق {n} اللي نوصل لها",
+                '      <ul class="chips-list">\n' + "".join(f"        <li>{esc(x)}</li>\n" for x in a) + "      </ul>",
+                f"هذي أبرز {len(a)} منطقة نغطيها في محافظة {n}. إذا منطقتك مو مكتوبة راسلنا على واتساب ونأكد لك التغطية."),
+        section("مسارات نوصلها", f"توصيل من وإلى {n}",
+                '      <ul class="chips-list">\n' + "".join(f"        <li>{esc(x)}</li>\n" for x in routes) + "      </ul>",
+                f"أمثلة على طلبات نوصلها بين {n} وباقي المحافظات، والسعر حسب المسافة ونأكده لك قبل الاستلام."),
+        section("خدماتنا", f"شنو نوصل في {n}؟", services_html()),
+        section("طريقة الطلب", "ثلاث خطوات ويوصل طلبك", steps_html()),
+    ])
+    faqs = [
+        (f"تشتغلون توصيل في {n} على مدار 24 ساعة؟", f"إيه، خدمتنا 24 ساعة طول الأسبوع. راسلنا على واتساب 99454818 في أي وقت ونرتب لك مندوب توصيل في {n} أو من {n} لأي منطقة ثانية."),
+        (f"شنو أرسل لكم عشان أطلب مندوب توصيل في {n}؟", f"أرسل منطقة الاستلام ومنطقة التسليم ونوع الطلب، مثال: من {ex_from} إلى {ex_to}. نرد عليك بالسعر ووقت وصول المندوب قبل ما نستلم."),
+        (f"شنو رقم مندوب توصيل {n}؟", f"رقم Delivery.KW للطلب والاتصال هو 99454818 (واتساب واتصال)، ونرتب لك مندوب توصيل في {n} على مدار 24 ساعة."),
+        (f"كم سعر التوصيل من وإلى {n}؟", "السعر حسب المسافة بين منطقة الاستلام ومنطقة التسليم، ونأكده لك على واتساب قبل الاستلام. الدفع كاش أو أونلاين."),
+    ]
+    ld = {"@type": "Service", "serviceType": "مندوب توصيل طلبات وأغراض", "name": g["title"] + " 24 ساعة",
+          "provider": {"@id": SITE + "/#business"},
+          "areaServed": [{"@type": "AdministrativeArea", "name": f"محافظة {n}"}] + [{"@type": "City", "name": x} for x in a],
+          "availableChannel": {"@type": "ServiceChannel", "serviceUrl": WA, "servicePhone": "+96599454818"}}
+    pages[g["slug"]] = page(
+        g["slug"], f"{g['title']} 24 ساعة | Delivery.KW",
+        f"{g['title']} على مدار 24 ساعة. توصيل أغراض وهدايا وطلبات متاجر من الباب للباب في {n}: " + "، ".join(a[:5]) + ". اطلب عبر واتساب 99454818.",
+        f"{g['title']} 24 ساعة", g["intro"], body, faqs,
+        [("الرئيسية", SITE + "/"), (f"توصيل {n}", f"{SITE}/{g['slug']}")], ld)
+
+# Instagram stores / small business page
+store_faqs = [
+    ("هل توصلون طلبات متاجر انستجرام؟", "إيه، نوصل طلبات عملاء متاجر انستجرام والمشاريع المنزلية يوميًا أو حسب الطلب، في جميع محافظات الكويت الست."),
+    ("في أسعار خاصة للمشاريع الصغيرة والمتوسطة؟", "إيه، عندنا أسعار خاصة لأصحاب المشاريع. راسلنا على واتساب وقول لنا كم طلب تتوقع بالأسبوع ونعطيك سعر مناسب."),
+    ("شنو أجهّز لكم مع كل طلب؟", "رقم العميل، موقعه أو وصف واضح لعنوانه، منطقة الاستلام من عندك، ونوع الطلب. كل ما كانت المعلومات أوضح كان التسليم أسرع."),
+    ("شلون أدفع لكم؟", "كاش أو أونلاين، اللي يناسبك، ونتفق عليه قبل الاستلام."),
+    ("أقدر أتواصل مع المندوب مباشرة؟", "إيه، يكون عندك تواصل مباشر مع المندوب عشان تتابع طلباتك."),
+]
+store_body = "\n".join([
+    section("لأصحاب المتاجر", "ليش تختار Delivery.KW لمتجرك؟",
+            '      <div class="services">\n'
+            + "".join(f'        <article class="service"><h3>{esc(t)}</h3><p>{esc(d)}</p></article>\n' for t, d in [
+                ("توصيل يومي أو حسب الطلب", "ترسل لنا الطلبات اللي جاهزة ونوصلها لعملائك في نفس اليوم حسب المتفق عليه."),
+                ("سعر واضح قبل الاستلام", "نأكد لك السعر على واتساب قبل ما نستلم أي طلب، وعندنا أسعار خاصة للمشاريع."),
+                ("مندوب تعرفه", "تواصل مباشر مع المندوب عشان تتابع طلباتك وتطمن على عملائك."),
+            ]) + "      </div>",
+            "متجر انستجرام أو مشروع من البيت؟ ركّز على البيع وخلّنا نتولى توصيل الطلبات لباب العميل."),
+    section("جهّز طلبك", "شنو تجهز مع كل طلب؟",
+            '      <ul class="chips-list">\n' + "".join(f"        <li>{esc(x)}</li>\n" for x in [
+                "اسم ورقم العميل", "موقع التسليم أو وصف واضح للعنوان", "منطقة الاستلام", "نوع الطلب وحجمه", "طريقة الدفع", "وقت التسليم المناسب"]) + "      </ul>",
+            "معلومات واضحة تعني توصيل أسرع وأقل اتصالات بينك وبين العميل."),
+    section("مناطق التغطية", "نوصل لعملائك في كل المحافظات",
+            '      <div class="plinks">\n' + "".join(f'        <a href="/{g["slug"]}">{esc(g["name"])}</a>\n' for g in GOVS) + "      </div>"),
+    section("طريقة الطلب", "ثلاث خطوات ويوصل طلبك", steps_html()),
+])
+pages["instagram-stores-delivery"] = page(
+    "instagram-stores-delivery", "توصيل طلبات متاجر انستجرام والمشاريع المنزلية في الكويت | Delivery.KW",
+    "مندوب توصيل لطلبات متاجر انستجرام والمشاريع المنزلية في الكويت، يوميًا أو حسب الطلب، بأسعار خاصة للمشاريع وسعر واضح قبل الاستلام. اطلب عبر واتساب 99454818.",
+    "توصيل طلبات متاجر انستجرام والمشاريع في الكويت",
+    "خدمة توصيل يومية أو حسب الطلب لعملاء متاجر انستجرام والمشاريع المنزلية في جميع مناطق الكويت، بأسعار خاصة وتواصل مباشر مع المندوب.",
+    store_body, store_faqs,
+    [("الرئيسية", SITE + "/"), ("توصيل متاجر انستجرام", SITE + "/instagram-stores-delivery")],
+    {"@type": "Service", "serviceType": "توصيل طلبات المتاجر والمشاريع", "name": "توصيل طلبات متاجر انستجرام والمشاريع المنزلية",
+     "provider": {"@id": SITE + "/#business"}, "areaServed": {"@type": "Country", "name": "الكويت"}})
+
+for slug, content in pages.items():
+    with open(os.path.join(ROOT, slug + ".html"), "w", encoding="utf-8") as f:
+        f.write(content)
+
+# sitemap
+urls = [("/", "1.0")] + [(f"/{s}", "0.8") for s in pages]
+sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
+    f"  <url>\n    <loc>{SITE}{p}</loc>\n    <lastmod>{TODAY}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>{pr}</priority>\n  </url>\n"
+    for p, pr in urls) + "</urlset>\n"
+open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write(sm)
+print("built", list(pages))
