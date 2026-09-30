@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>إدارة الآراء | Delivery.KW</title>
-<meta name="description" content="إدارة آراء العملاء.">
+<title>لوحة الإدارة | Delivery.KW</title>
+<meta name="description" content="لوحة إدارة Delivery.KW.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0A1733">
 <script>try{if(localStorage.getItem('dkw-mode')==='light')document.documentElement.setAttribute('data-mode','light')}catch(e){}</script>
@@ -284,12 +284,13 @@
   @keyframes nudge{50%{transform:translateY(4px)}}
 
   /* order builder v2 */
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .route{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end}
   .swap{width:42px;height:42px;margin-bottom:14px;border-radius:12px;border:1px solid var(--soft);
     background:var(--field);color:var(--gold);cursor:pointer;display:grid;place-items:center}
   .swap:hover{border-color:var(--gold)}
   .swap svg{width:18px;height:18px}
-  @media (max-width:520px){.route{grid-template-columns:1fr}.swap{justify-self:center;margin:-6px 0 8px;transform:rotate(90deg)}}
+  @media (max-width:520px){.route,.pair{grid-template-columns:1fr}.pair{gap:0}.swap{justify-self:center;margin:-6px 0 8px;transform:rotate(90deg)}}
   .chips{display:flex;flex-wrap:wrap;gap:8px;border:0;margin:0 0 14px;padding:0}
   .chips legend{font-size:.88rem;color:var(--gold-soft);margin-bottom:6px;padding:0}
   .chips input{position:absolute;opacity:0;pointer-events:none}
@@ -415,6 +416,7 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
 .phero .btn-wa svg{width:20px;height:20px}
 @media (max-width:760px){.hero .phone{display:none}.hero .perks li:nth-child(n+3){display:none}}
 </style>
+<link rel="stylesheet" href="/assets/admin.css?v=2">
 </head>
 <body>
 <svg class="svg-defs" width="0" height="0" aria-hidden="true">
@@ -449,34 +451,73 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
 <main>
   <section class="phero">
     <div class="wrap">
-      <p class="crumbs"><a href="https://deliverykw.com/">الرئيسية</a> › إدارة الآراء</p>
-      <h1>إدارة آراء العملاء</h1>
-      <p class="lead">الآراء الجديدة تظهر هنا. اضغط موافقة ونشر عشان تظهر في الموقع، أو حذف.</p>
-      <div class="cta-row">
-        <a class="btn btn-wa" href="https://wa.me/96599454818?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%A8%D9%8A%20%D8%A3%D8%B7%D9%84%D8%A8%20%D8%AA%D9%88%D8%B5%D9%8A%D9%84%20%D9%85%D8%B9%20Delivery.KW" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-wa"/></svg>اطلب عبر واتساب</a>
-        <a class="btn btn-ig" href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-ig"/></svg>تابعنا على انستجرام</a>
-      </div>
+      <p class="crumbs"><a href="https://deliverykw.com/">الرئيسية</a> › لوحة الإدارة</p>
+      <h1>لوحة الإدارة</h1>
+      <p class="lead">الطلبات والعملاء والزوار وآراء العملاء في مكان واحد. هذي الصفحة لك بس، ومحمية بمفتاح الإدارة.</p>
     </div>
   </section>
-  <section class="block flush">
+  <section class="block flush adm">
     <div class="wrap">
-      <p class="note" id="adminMsg" role="status"></p>
-      <div id="adminList"></div>
-    </div>
-  </section>
-  <section class="block flush">
-    <div class="wrap">
-      <div class="head"><h2>مناطق أخرى نوصل لها</h2></div>
-      <div class="plinks">
-        <a href="/delivery-capital">العاصمة</a>
-        <a href="/delivery-hawalli">حولي</a>
-        <a href="/delivery-farwaniya">الفروانية</a>
-        <a href="/delivery-mubarak-al-kabeer">مبارك الكبير</a>
-        <a href="/delivery-ahmadi">الأحمدي</a>
-        <a href="/delivery-jahra">الجهراء</a>
-        <a href="/instagram-stores-delivery">متاجر انستجرام والمشاريع</a>
-        <a href="/delivery-guide-kuwait">دليل اختيار مندوب توصيل</a>
-        <a href="/">كل مناطق الكويت</a>
+      <form class="card adm-login" id="admLogin" hidden>
+        <label for="admKey">مفتاح الإدارة</label>
+        <input id="admKey" type="password" autocomplete="current-password" dir="ltr" required>
+        <button class="btn btn-wa" type="submit">دخول</button>
+        <p class="note" id="admLoginMsg" role="alert"></p>
+      </form>
+      <div id="admApp" hidden>
+        <div class="adm-bar">
+          <nav class="adm-tabs" aria-label="أقسام لوحة الإدارة">
+            <button type="button" data-tab="overview" aria-selected="true">نظرة عامة</button>
+            <button type="button" data-tab="orders" aria-selected="false">الطلبات</button>
+            <button type="button" data-tab="customers" aria-selected="false">العملاء</button>
+            <button type="button" data-tab="visitors" aria-selected="false">الزوار</button>
+            <button type="button" data-tab="reviews" aria-selected="false">الآراء<span class="badge" id="revBadge"></span></button>
+          </nav>
+          <div class="adm-tools">
+            <label>الفترة
+              <select id="admDays">
+                <option value="1">اليوم</option>
+                <option value="7">آخر 7 أيام</option>
+                <option value="30" selected>آخر 30 يوم</option>
+                <option value="90">آخر 90 يوم</option>
+                <option value="365">آخر سنة</option>
+              </select>
+            </label>
+            <button class="btn btn-sm adm-btn" type="button" id="admRefresh">تحديث</button>
+            <button class="btn btn-sm adm-btn" type="button" id="admLogout">خروج</button>
+          </div>
+        </div>
+        <p class="note" id="adminMsg" role="status"></p>
+        <div data-panel="overview">
+          <div class="kpis" id="kpis"></div>
+          <div class="adm-grid" id="ovCharts"></div>
+        </div>
+        <div data-panel="orders" hidden>
+          <div class="adm-filters">
+            <input type="search" id="ordQ" placeholder="بحث بالاسم أو الرقم أو المنطقة" aria-label="بحث في الطلبات">
+            <select id="ordStatus" aria-label="حالة الطلب">
+              <option value="all">كل الحالات</option>
+              <option value="new">جديد</option>
+              <option value="done">تم التوصيل</option>
+              <option value="cancelled">ملغي</option>
+            </select>
+            <button class="btn btn-sm adm-btn" type="button" id="ordCsv">تنزيل Excel (CSV)</button>
+            <span class="muted" id="ordCount"></span>
+          </div>
+          <div class="adm-list" id="ordersList"></div>
+        </div>
+        <div data-panel="customers" hidden>
+          <p class="muted" id="custCount"></p>
+          <div id="custList"></div>
+        </div>
+        <div data-panel="visitors" hidden>
+          <div class="kpis" id="vKpis"></div>
+          <div class="adm-grid" id="vCharts"></div>
+        </div>
+        <div data-panel="reviews" hidden>
+          <p class="muted" id="revCount"></p>
+          <div id="adminList"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -490,6 +531,6 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
 </footer>
 
 <script src="/assets/site.js?v=1" defer></script>
-<script src="/assets/admin.js?v=1" defer></script>
+<script src="/assets/admin.js?v=2" defer></script>
 </body>
 </html>

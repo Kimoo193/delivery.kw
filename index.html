@@ -613,12 +613,13 @@
   @keyframes nudge{50%{transform:translateY(4px)}}
 
   /* order builder v2 */
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .route{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end}
   .swap{width:42px;height:42px;margin-bottom:14px;border-radius:12px;border:1px solid var(--soft);
     background:var(--field);color:var(--gold);cursor:pointer;display:grid;place-items:center}
   .swap:hover{border-color:var(--gold)}
   .swap svg{width:18px;height:18px}
-  @media (max-width:520px){.route{grid-template-columns:1fr}.swap{justify-self:center;margin:-6px 0 8px;transform:rotate(90deg)}}
+  @media (max-width:520px){.route,.pair{grid-template-columns:1fr}.pair{gap:0}.swap{justify-self:center;margin:-6px 0 8px;transform:rotate(90deg)}}
   .chips{display:flex;flex-wrap:wrap;gap:8px;border:0;margin:0 0 14px;padding:0}
   .chips legend{font-size:.88rem;color:var(--gold-soft);margin-bottom:6px;padding:0}
   .chips input{position:absolute;opacity:0;pointer-events:none}
@@ -875,6 +876,16 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
       <form class="card" id="orderForm" novalidate>
         <h3>جهّز طلبك</h3>
         <p class="sub">عبّي البيانات ونفتح لك واتساب برسالة جاهزة.</p>
+        <div class="pair">
+          <div class="field">
+            <label for="cname">الاسم <span class="muted">(اختياري)</span></label>
+            <input id="cname" name="name" maxlength="40" autocomplete="name" placeholder="مثال: أبو محمد">
+          </div>
+          <div class="field">
+            <label for="cphone">رقم التواصل <span class="muted">(اختياري)</span></label>
+            <input id="cphone" name="phone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" dir="ltr" placeholder="9XXXXXXX">
+          </div>
+        </div>
         <div class="route">
           <div class="field" id="f-from">
             <label for="from">منطقة الاستلام</label>
@@ -913,7 +924,7 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
         <a class="btn btn-wa" id="sendOrder" href="https://wa.me/96599454818" target="_blank" rel="noopener noreferrer">
           <svg aria-hidden="true"><use href="#i-wa"/></svg>أرسل الطلب على واتساب
         </a>
-        <p class="note">الرسالة تنفتح في واتساب ولا تنرسل إلا لما تضغط إرسال بنفسك.</p>
+        <p class="note">الرسالة تنفتح في واتساب ولا تنرسل إلا لما تضغط إرسال بنفسك. نحفظ بيانات الطلب عندنا عشان نتابعه معك.</p>
       </form>
       <div class="offer">
         <picture><source srcset="assets/door-to-door-600.webp 600w, assets/door-to-door.webp 1000w" sizes="(max-width:860px) calc(100vw - 40px), 524px" type="image/webp"><img src="assets/door-to-door.jpg" alt="توصيل من الباب إلى الباب في الكويت مع Delivery.KW" width="1000" height="1000" loading="lazy" decoding="async"></picture>
@@ -1117,11 +1128,13 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
   function v(id){ return document.getElementById(id).value.trim(); }
   function r(name){ var c = f.querySelector('input[name="'+name+'"]:checked'); return c ? c.value : ''; }
   function message(){
-    var lines = ['السلام عليكم، أبي أطلب توصيل 🚗',
-      '📍 الاستلام: ' + (v('from') || '—'),
+    var lines = ['السلام عليكم، أبي أطلب توصيل 🚗'];
+    if (v('cname')) lines.push('👤 الاسم: ' + v('cname'));
+    if (v('cphone')) lines.push('📞 رقم التواصل: ' + v('cphone'));
+    lines.push('📍 الاستلام: ' + (v('from') || '—'),
       '🏁 التسليم: ' + (v('to') || '—'),
       '📦 نوع الطلب: ' + (r('kind') || '—'),
-      '💳 الدفع: ' + r('pay')];
+      '💳 الدفع: ' + r('pay'));
     if (v('notes')) lines.push('📝 ملاحظات: ' + v('notes'));
     return lines.join('\n');
   }
@@ -1136,8 +1149,16 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
   }
   f.addEventListener('input', build); f.addEventListener('change', build);
   f.addEventListener('submit', function(e){ e.preventDefault(); });
+  function saveOrder(){
+    var data = JSON.stringify({ name: v('cname'), phone: v('cphone'), from: v('from'), to: v('to'), kind: r('kind'),
+      pay: r('pay'), notes: v('notes'), page: location.pathname, ref: document.referrer, q: location.search.slice(0, 200) });
+    try {
+      if (navigator.sendBeacon && navigator.sendBeacon('/api/order', data)) return;
+      fetch('/api/order', { method: 'POST', body: data, keepalive: true }).catch(function(){});
+    } catch(e){}
+  }
   send.addEventListener('click', function(e){
-    if (v('from') && v('to')) return;
+    if (v('from') && v('to')) { saveOrder(); return; }
     e.preventDefault(); err.hidden = false; mark();
     document.getElementById(v('from') ? 'to' : 'from').focus();
   });
@@ -1194,5 +1215,6 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
 })();
 </script>
 <script src="/assets/reviews.js?v=2" defer></script>
+<script src="/assets/track.js?v=1" defer></script>
 </body>
 </html>

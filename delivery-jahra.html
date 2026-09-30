@@ -440,12 +440,13 @@
   @keyframes nudge{50%{transform:translateY(4px)}}
 
   /* order builder v2 */
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .route{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end}
   .swap{width:42px;height:42px;margin-bottom:14px;border-radius:12px;border:1px solid var(--soft);
     background:var(--field);color:var(--gold);cursor:pointer;display:grid;place-items:center}
   .swap:hover{border-color:var(--gold)}
   .swap svg{width:18px;height:18px}
-  @media (max-width:520px){.route{grid-template-columns:1fr}.swap{justify-self:center;margin:-6px 0 8px;transform:rotate(90deg)}}
+  @media (max-width:520px){.route,.pair{grid-template-columns:1fr}.pair{gap:0}.swap{justify-self:center;margin:-6px 0 8px;transform:rotate(90deg)}}
   .chips{display:flex;flex-wrap:wrap;gap:8px;border:0;margin:0 0 14px;padding:0}
   .chips legend{font-size:.88rem;color:var(--gold-soft);margin-bottom:6px;padding:0}
   .chips input{position:absolute;opacity:0;pointer-events:none}
@@ -727,5 +728,6 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
   <a href="https://www.instagram.com/td.delivery1/" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-ig"/></svg>انستجرام</a>
 </nav>
 <script src="/assets/site.js?v=1" defer></script>
+<script src="/assets/track.js?v=1" defer></script>
 </body>
 </html>

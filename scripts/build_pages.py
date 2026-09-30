@@ -183,6 +183,7 @@ def page(slug, title, desc, h1, lead, body, faqs, breadcrumb, extra_ld=None, wa_
 
 {dock}
 <script src="/assets/site.js?v=1" defer></script>
+<script src="/assets/track.js?v=1" defer></script>
 </body>
 </html>
 """
@@ -474,18 +475,86 @@ nf = re.sub(r'<meta name="robots" content="[^"]*">', '<meta name="robots" conten
 nf = re.sub(r'<script type="application/ld\+json">.*?</script>\n', "", nf, flags=re.S)
 open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8").write(nf)
 
-# Admin (review moderation) page: not in sitemap, noindex
-adm = page("admin", "إدارة الآراء | Delivery.KW", "إدارة آراء العملاء.", "إدارة آراء العملاء",
-    "الآراء الجديدة تظهر هنا. اضغط موافقة ونشر عشان تظهر في الموقع، أو حذف.",
-    '  <section class="block flush">\n    <div class="wrap">\n      <p class="note" id="adminMsg" role="status"></p>\n      <div id="adminList"></div>\n    </div>\n  </section>',
-    [], [("الرئيسية", SITE + "/"), ("إدارة الآراء", SITE + "/admin")])
+# Admin dashboard (orders, customers, visitors, reviews): not in sitemap, noindex
+ADMIN_BODY = """  <section class="block flush adm">
+    <div class="wrap">
+      <form class="card adm-login" id="admLogin" hidden>
+        <label for="admKey">مفتاح الإدارة</label>
+        <input id="admKey" type="password" autocomplete="current-password" dir="ltr" required>
+        <button class="btn btn-wa" type="submit">دخول</button>
+        <p class="note" id="admLoginMsg" role="alert"></p>
+      </form>
+      <div id="admApp" hidden>
+        <div class="adm-bar">
+          <nav class="adm-tabs" aria-label="أقسام لوحة الإدارة">
+            <button type="button" data-tab="overview" aria-selected="true">نظرة عامة</button>
+            <button type="button" data-tab="orders" aria-selected="false">الطلبات</button>
+            <button type="button" data-tab="customers" aria-selected="false">العملاء</button>
+            <button type="button" data-tab="visitors" aria-selected="false">الزوار</button>
+            <button type="button" data-tab="reviews" aria-selected="false">الآراء<span class="badge" id="revBadge"></span></button>
+          </nav>
+          <div class="adm-tools">
+            <label>الفترة
+              <select id="admDays">
+                <option value="1">اليوم</option>
+                <option value="7">آخر 7 أيام</option>
+                <option value="30" selected>آخر 30 يوم</option>
+                <option value="90">آخر 90 يوم</option>
+                <option value="365">آخر سنة</option>
+              </select>
+            </label>
+            <button class="btn btn-sm adm-btn" type="button" id="admRefresh">تحديث</button>
+            <button class="btn btn-sm adm-btn" type="button" id="admLogout">خروج</button>
+          </div>
+        </div>
+        <p class="note" id="adminMsg" role="status"></p>
+        <div data-panel="overview">
+          <div class="kpis" id="kpis"></div>
+          <div class="adm-grid" id="ovCharts"></div>
+        </div>
+        <div data-panel="orders" hidden>
+          <div class="adm-filters">
+            <input type="search" id="ordQ" placeholder="بحث بالاسم أو الرقم أو المنطقة" aria-label="بحث في الطلبات">
+            <select id="ordStatus" aria-label="حالة الطلب">
+              <option value="all">كل الحالات</option>
+              <option value="new">جديد</option>
+              <option value="done">تم التوصيل</option>
+              <option value="cancelled">ملغي</option>
+            </select>
+            <button class="btn btn-sm adm-btn" type="button" id="ordCsv">تنزيل Excel (CSV)</button>
+            <span class="muted" id="ordCount"></span>
+          </div>
+          <div class="adm-list" id="ordersList"></div>
+        </div>
+        <div data-panel="customers" hidden>
+          <p class="muted" id="custCount"></p>
+          <div id="custList"></div>
+        </div>
+        <div data-panel="visitors" hidden>
+          <div class="kpis" id="vKpis"></div>
+          <div class="adm-grid" id="vCharts"></div>
+        </div>
+        <div data-panel="reviews" hidden>
+          <p class="muted" id="revCount"></p>
+          <div id="adminList"></div>
+        </div>
+      </div>
+    </div>
+  </section>"""
+adm = page("admin", "لوحة الإدارة | Delivery.KW", "لوحة إدارة Delivery.KW.", "لوحة الإدارة",
+    "الطلبات والعملاء والزوار وآراء العملاء في مكان واحد. هذي الصفحة لك بس، ومحمية بمفتاح الإدارة.",
+    ADMIN_BODY, [], [("الرئيسية", SITE + "/"), ("لوحة الإدارة", SITE + "/admin")])
 adm = re.sub(r'<link rel="(canonical|alternate)"[^>]*>\n', "", adm)
 adm = re.sub(r'<meta (property="og:[^"]*"|name="twitter:[^"]*")[^>]*>\n', "", adm)
 adm = re.sub(r'<meta name="robots" content="[^"]*">', '<meta name="robots" content="noindex, nofollow">', adm)
 adm = re.sub(r'<script type="application/ld\+json">.*?</script>\n', "", adm, flags=re.S)
 adm = re.sub(r'  <section class="block flush" id="faq">.*?</section>\n', "", adm, flags=re.S)
 adm = re.sub(r'<a class="fab".*?</nav>\n', "", adm, flags=re.S)
-adm = adm.replace("</body>", '<script src="/assets/admin.js?v=1" defer></script>\n</body>')
+adm = adm.replace('<script src="/assets/track.js?v=1" defer></script>\n', "")
+adm = re.sub(r'      <div class="cta-row">.*?</div>\n', "", adm, count=1, flags=re.S)
+adm = re.sub(r'  <section class="block flush">\n    <div class="wrap">\n      <div class="head"><h2>مناطق أخرى.*?</section>\n', "", adm, flags=re.S)
+adm = adm.replace("</head>", '<link rel="stylesheet" href="/assets/admin.css?v=2">\n</head>')
+adm = adm.replace("</body>", '<script src="/assets/admin.js?v=2" defer></script>\n</body>')
 open(os.path.join(ROOT, "admin.html"), "w", encoding="utf-8").write(adm)
 
 # sitemap
