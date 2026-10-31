@@ -24,11 +24,13 @@ export async function onRequestPost({ request, env }) {
 
   const from = clean(body.from, 40);
   const to = clean(body.to, 40);
-  if (from.length < 2 || to.length < 2) return json({ error: "invalid" }, 400);
+  const name = clean(body.name, 40);
+  const phone = normalizePhone(body.phone);
+  if (from.length < 2 || to.length < 2 || name.length < 2 || !phone) return json({ error: "invalid" }, 400);
 
   const order = {
-    name: clean(body.name, 40) || null,
-    phone: normalizePhone(body.phone) || null,
+    name,
+    phone,
     kind: clean(body.kind, 30) || null,
     pay: clean(body.pay, 12) || null,
     notes: clean(body.notes, 300) || null,

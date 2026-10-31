@@ -877,13 +877,13 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
         <h3>جهّز طلبك</h3>
         <p class="sub">عبّي البيانات ونفتح لك واتساب برسالة جاهزة.</p>
         <div class="pair">
-          <div class="field">
-            <label for="cname">الاسم <span class="muted">(اختياري)</span></label>
-            <input id="cname" name="name" maxlength="40" autocomplete="name" placeholder="مثال: أبو محمد">
+          <div class="field" id="f-cname">
+            <label for="cname">الاسم</label>
+            <input id="cname" name="name" required aria-required="true" maxlength="40" autocomplete="name" placeholder="مثال: أبو محمد">
           </div>
-          <div class="field">
-            <label for="cphone">رقم التواصل <span class="muted">(اختياري)</span></label>
-            <input id="cphone" name="phone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" dir="ltr" placeholder="9XXXXXXX">
+          <div class="field" id="f-cphone">
+            <label for="cphone">رقم التواصل</label>
+            <input id="cphone" name="phone" required aria-required="true" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" dir="ltr" placeholder="9XXXXXXX">
           </div>
         </div>
         <div class="route">
@@ -920,7 +920,7 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
         </div>
         <span class="preview-label">الرسالة اللي بتوصلنا:</span>
         <div class="preview" id="preview" aria-live="polite"></div>
-        <p class="err" id="err" hidden>اكتب منطقة الاستلام ومنطقة التسليم عشان نعطيك السعر.</p>
+        <p class="err" id="err" hidden>اكتب اسمك ورقم تواصل صحيح ومنطقة الاستلام والتسليم عشان نعطيك السعر.</p>
         <a class="btn btn-wa" id="sendOrder" href="https://wa.me/96599454818" target="_blank" rel="noopener noreferrer">
           <svg aria-hidden="true"><use href="#i-wa"/></svg>أرسل الطلب على واتساب
         </a>
@@ -1138,14 +1138,22 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
     if (v('notes')) lines.push('📝 ملاحظات: ' + v('notes'));
     return lines.join('\n');
   }
+  function digits(s){ return s.replace(/[٠-٩]/g, function(d){ return d.charCodeAt(0) - 0x0660; })
+    .replace(/[۰-۹]/g, function(d){ return d.charCodeAt(0) - 0x06F0; }).replace(/\D/g, ''); }
+  var REQ = ['cname','cphone','from','to'];
+  function ok(id){
+    if (id === 'cphone') { var n = digits(v(id)).length; return n >= 8 && n <= 15; }
+    return v(id).length >= 2;
+  }
+  function firstBad(){ for (var i = 0; i < REQ.length; i++) if (!ok(REQ[i])) return REQ[i]; return ''; }
   function mark(){
-    ['from','to'].forEach(function(id){ document.getElementById('f-'+id).classList.toggle('bad', !v(id)); });
+    REQ.forEach(function(id){ document.getElementById('f-'+id).classList.toggle('bad', !ok(id)); });
   }
   function build(){
     var m = message();
     preview.textContent = m;
     send.href = WA + encodeURIComponent(m);
-    if (!err.hidden && v('from') && v('to')) { err.hidden = true; mark(); }
+    if (!err.hidden) { mark(); if (!firstBad()) err.hidden = true; }
   }
   f.addEventListener('input', build); f.addEventListener('change', build);
   f.addEventListener('submit', function(e){ e.preventDefault(); });
@@ -1158,9 +1166,10 @@ a.service:hover,a.service:focus-visible{border-color:var(--gold)}
     } catch(e){}
   }
   send.addEventListener('click', function(e){
-    if (v('from') && v('to')) { saveOrder(); return; }
+    var bad = firstBad();
+    if (!bad) { saveOrder(); return; }
     e.preventDefault(); err.hidden = false; mark();
-    document.getElementById(v('from') ? 'to' : 'from').focus();
+    document.getElementById(bad).focus();
   });
   document.getElementById('swap').addEventListener('click', function(){
     var a = document.getElementById('from'), b = document.getElementById('to'), t = a.value;
