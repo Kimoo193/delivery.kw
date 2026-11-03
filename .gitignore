@@ -1,3 +1,7 @@
 .wrangler/
 .impeccable/hook.cache.json
 .admin-key
+.commandcode/
+.playwright-mcp/
+__pycache__/
+*.exe
