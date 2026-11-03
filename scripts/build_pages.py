@@ -13,6 +13,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = "https://deliverykw.com"
 WA = "https://wa.me/96599454818"
 TODAY = "2026-09-29"
+UPDATED = "2026-11-03"  # lastmod for pages added/changed in the Nov 2026 SEO pass
+import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from areas_data import AREAS, KEYWORD_PAGES
 
 idx = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
 STYLE = re.search(r"<style>.*?</style>", idx, re.S).group(0)
@@ -228,6 +231,10 @@ for g in GOVS:
                 '      <ul class="chips-list">\n' + "".join(f'        <li><a href="{wa_link("السلام عليكم، أبي توصيل " + x)}" target="_blank" rel="noopener noreferrer">{esc(x)}</a></li>\n' for x in routes) + "      </ul>",
                 f"أمثلة على طلبات نوصلها بين {n} وباقي المحافظات، والسعر حسب المسافة ونأكده لك قبل الاستلام."),
         section("خدماتنا", f"شنو نوصل في {n}؟", services_html()),
+    ] + ([section("صفحات المناطق", f"تفاصيل التوصيل في مناطق {n}",
+                  '      <div class="plinks">\n' + "".join(f'        <a href="/{x["slug"]}">مندوب توصيل {esc(x["name"])}</a>\n' for x in AREAS if x["gov"] == g["slug"]) + "      </div>",
+                  "صفحات فيها تفاصيل أكثر عن التوصيل في أشهر مناطق المحافظة.")]
+         if any(x["gov"] == g["slug"] for x in AREAS) else []) + [
         section("طريقة الطلب", "ثلاث خطوات ويوصل طلبك", steps_html()),
     ])
     faqs = [
@@ -457,6 +464,68 @@ for art in ARTICLES:
          "datePublished": TODAY, "dateModified": TODAY, "mainEntityOfPage": f"{SITE}/{art['slug']}"})
     pages[art["slug"]] = art_html.replace('<p class="lead">', f'<p class="crumbs">آخر تحديث: <time datetime="{TODAY}">{TODAY}</time> · Delivery.KW</p>\n      <p class="lead">', 1)
 
+# ---------- Neighbourhood pages ----------
+GOV_BY_SLUG = {g["slug"]: g for g in GOVS}
+AREA_BY_NAME = {a["name"]: a for a in AREAS}
+
+def area_link(name):
+    a = AREA_BY_NAME.get(name)
+    return f'<a href="/{a["slug"]}">{esc(name)}</a>' if a else esc(name)
+
+for ar in AREAS:
+    n, g = ar["name"], GOV_BY_SLUG[ar["gov"]]
+    far = [x["main"] for x in GOVS if x is not g][:3]
+    routes = [f"من {n} إلى {far[0]}", f"من {far[1]} إلى {n}", f"من {n} إلى {ar['near'][0]}", f"من {far[2]} إلى {n}"]
+    near_html = "، ".join(area_link(x) for x in ar["near"])
+    body = "\n".join([
+        f'  <section class="block flush">\n    <div class="wrap prose">\n      <h2>التوصيل في {esc(n)}</h2>\n'
+        + "".join(f"      <p>{esc(t)}</p>\n" for t in ar["about"])
+        + f'      <p>{esc(n)} تابعة لمحافظة <a href="/{g["slug"]}">{esc(g["name"])}</a>، وقريبة من {near_html}. نوصل منها وإليها على مدار 24 ساعة.</p>\n    </div>\n  </section>',
+        section("طلبات نوصلها", f"شنو نوصل في {n}؟",
+                '      <ul class="chips-list">\n' + "".join(f"        <li>{esc(x)}</li>\n" for x in ar["uses"]) + "      </ul>"),
+        section("مسارات نوصلها", f"توصيل من وإلى {n}",
+                '      <ul class="chips-list">\n' + "".join(f'        <li><a href="{wa_link("السلام عليكم، أبي توصيل " + x)}" target="_blank" rel="noopener noreferrer">{esc(x)}</a></li>\n' for x in routes) + "      </ul>",
+                "السعر يبدأ من دينارين ويزيد حسب المسافة، ونأكده لك على واتساب قبل الاستلام."),
+        section("طريقة الطلب", "ثلاث خطوات ويوصل طلبك", steps_html()),
+    ])
+    faqs = [
+        (f"تشتغلون توصيل في {n} 24 ساعة؟", f"إيه، نستقبل طلبات التوصيل في {n} على واتساب 99454818 على مدار 24 ساعة طول الأسبوع."),
+        (f"كم سعر مندوب التوصيل في {n}؟", f"الأسعار تبدأ من دينارين (2 د.ك) وتزيد حسب المسافة بين منطقة الاستلام ومنطقة التسليم. نأكد لك السعر النهائي قبل الاستلام، والدفع كاش أو أونلاين."),
+        ar["faq"],
+        (f"شنو رقم مندوب توصيل {n}؟", "رقم Delivery.KW للطلب 99454818 (واتساب واتصال). أرسل منطقة الاستلام والتسليم ونرد عليك بالسعر ووقت الوصول."),
+    ]
+    ld = {"@type": "Service", "serviceType": "مندوب توصيل طلبات وأغراض", "name": f"مندوب توصيل {n} 24 ساعة",
+          "provider": {"@id": SITE + "/#business"},
+          "areaServed": {"@type": "Place", "name": n, "containedInPlace": {"@type": "AdministrativeArea", "name": f"محافظة {g['name']}"}},
+          "availableChannel": {"@type": "ServiceChannel", "serviceUrl": WA, "servicePhone": "+96599454818"}}
+    pages[ar["slug"]] = page(
+        ar["slug"], f"مندوب توصيل {n} 24 ساعة | توصيل طلبات {n} | Delivery.KW",
+        f"مندوب توصيل في {n} على مدار 24 ساعة: أغراض وهدايا وطلبات متاجر من الباب للباب، من وإلى {n} لكل مناطق الكويت. السعر من 2 د.ك. واتساب 99454818.",
+        f"مندوب توصيل {n} 24 ساعة", ar["intro"], body, faqs,
+        [("الرئيسية", SITE + "/"), (f"توصيل {g['name']}", f"{SITE}/{g['slug']}"), (f"توصيل {n}", f"{SITE}/{ar['slug']}")], ld,
+        wa_text=f"السلام عليكم، أبي مندوب توصيل في {n}")
+
+# ---------- Keyword pages ----------
+for kp in KEYWORD_PAGES:
+    secs = "\n".join(prose_section(h2, blocks) for h2, blocks in kp["secs"])
+    others = "".join(f'        <a href="/{o["slug"]}">{esc(o["card"])}</a>\n' for o in KEYWORD_PAGES if o is not kp)
+    tail = section("طريقة الطلب", "ثلاث خطوات ويوصل طلبك", steps_html()) + f"""
+  <section class="block flush">
+    <div class="wrap">
+      <div class="head"><h2>صفحات ذات صلة</h2></div>
+      <div class="plinks">
+{others}        <a href="/instagram-stores-delivery">توصيل متاجر انستجرام</a>
+        <a href="/delivery-guide-kuwait">دليل اختيار مندوب توصيل</a>
+      </div>
+    </div>
+  </section>"""
+    pages[kp["slug"]] = page(
+        kp["slug"], kp["title"], kp["desc"], kp["h1"], kp["lead"], secs + "\n" + tail, kp["faqs"],
+        [("الرئيسية", SITE + "/"), (kp["card"], f"{SITE}/{kp['slug']}")],
+        {"@type": "Service", "serviceType": "مندوب توصيل طلبات وأغراض", "name": kp["h1"],
+         "provider": {"@id": SITE + "/#business"}, "areaServed": {"@type": "Country", "name": "الكويت"},
+         "availableChannel": {"@type": "ServiceChannel", "serviceUrl": WA, "servicePhone": "+96599454818"}})
+
 for slug, content in pages.items():
     with open(os.path.join(ROOT, slug + ".html"), "w", encoding="utf-8") as f:
         f.write(content)
@@ -558,9 +627,10 @@ adm = adm.replace("</body>", '<script src="/assets/admin.js?v=2" defer></script>
 open(os.path.join(ROOT, "admin.html"), "w", encoding="utf-8").write(adm)
 
 # sitemap
+UPDATED_SLUGS = {g["slug"] for g in GOVS} | {a["slug"] for a in AREAS} | {k["slug"] for k in KEYWORD_PAGES}
 urls = [("/", "1.0")] + [(f"/{s}", "0.8") for s in pages]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
-    f"  <url>\n    <loc>{SITE}{p}</loc>\n    <lastmod>{TODAY}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>{pr}</priority>\n  </url>\n"
+    f"  <url>\n    <loc>{SITE}{p}</loc>\n    <lastmod>{UPDATED if p == '/' or p.lstrip('/') in UPDATED_SLUGS else TODAY}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>{pr}</priority>\n  </url>\n"
     for p, pr in urls) + "</urlset>\n"
 open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write(sm)
 print("built", list(pages))
