@@ -13,9 +13,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = "https://deliverykw.com"
 WA = "https://wa.me/96599454818"
 TODAY = "2026-09-29"
+UPDATED_NEW = "2026-11-10"  # lastmod for area/keyword pages expanded in the second SEO pass
 UPDATED = "2026-11-03"  # lastmod for pages added/changed in the Nov 2026 SEO pass
 import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from areas_data import AREAS, KEYWORD_PAGES
+from areas_data import AREAS, KEYWORD_PAGES, EXTRA
 
 idx = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
 STYLE = re.search(r"<style>.*?</style>", idx, re.S).group(0)
@@ -472,6 +473,20 @@ def area_link(name):
     a = AREA_BY_NAME.get(name)
     return f'<a href="/{a["slug"]}">{esc(name)}</a>' if a else esc(name)
 
+def related_areas(ar):
+    """Same-governorate areas, then areas named in `near`, then areas of other governorates (rotating), up to 6.
+    Rotating the filler by index spreads internal links evenly so no area page stays under-linked."""
+    out = [o for o in AREAS if o["gov"] == ar["gov"] and o is not ar]
+    out += [AREA_BY_NAME[x] for x in ar["near"] if x in AREA_BY_NAME and AREA_BY_NAME[x] not in out and AREA_BY_NAME[x] is not ar]
+    idx = AREAS.index(ar)
+    k = 1
+    while len(out) < 6 and k < len(AREAS):
+        o = AREAS[(idx + k * 3) % len(AREAS)]
+        if o is not ar and o not in out:
+            out.append(o)
+        k += 1
+    return out[:6]
+
 for ar in AREAS:
     n, g = ar["name"], GOV_BY_SLUG[ar["gov"]]
     far = [x["main"] for x in GOVS if x is not g][:3]
@@ -480,18 +495,22 @@ for ar in AREAS:
     body = "\n".join([
         f'  <section class="block flush">\n    <div class="wrap prose">\n      <h2>التوصيل في {esc(n)}</h2>\n'
         + "".join(f"      <p>{esc(t)}</p>\n" for t in ar["about"])
-        + f'      <p>{esc(n)} تابعة لمحافظة <a href="/{g["slug"]}">{esc(g["name"])}</a>، وقريبة من {near_html}. نوصل منها وإليها على مدار 24 ساعة.</p>\n    </div>\n  </section>',
+        + f'      <p>{esc(n)} تابعة لمحافظة <a href="/{g["slug"]}">{esc(g["name"])}</a>، وقريبة من {near_html}. نوصل منها وإليها على مدار 24 ساعة.</p>\n'
+        + f'      <h3>{esc(EXTRA[ar["slug"]][0])}</h3>\n      <p>{esc(EXTRA[ar["slug"]][1])}</p>\n    </div>\n  </section>',
         section("طلبات نوصلها", f"شنو نوصل في {n}؟",
                 '      <ul class="chips-list">\n' + "".join(f"        <li>{esc(x)}</li>\n" for x in ar["uses"]) + "      </ul>"),
         section("مسارات نوصلها", f"توصيل من وإلى {n}",
                 '      <ul class="chips-list">\n' + "".join(f'        <li><a href="{wa_link("السلام عليكم، أبي توصيل " + x)}" target="_blank" rel="noopener noreferrer">{esc(x)}</a></li>\n' for x in routes) + "      </ul>",
                 "السعر يبدأ من دينارين ويزيد حسب المسافة، ونأكده لك على واتساب قبل الاستلام."),
         section("طريقة الطلب", "ثلاث خطوات ويوصل طلبك", steps_html()),
+        section("مناطق قريبة", f"مناطق قريبة من {n} نوصل لها",
+                '      <div class="plinks">\n' + "".join(f'        <a href="/{o["slug"]}">توصيل {esc(o["name"])}</a>\n' for o in related_areas(ar)) + "      </div>"),
     ])
     faqs = [
         (f"تشتغلون توصيل في {n} 24 ساعة؟", f"إيه، نستقبل طلبات التوصيل في {n} على واتساب 99454818 على مدار 24 ساعة طول الأسبوع."),
         (f"كم سعر مندوب التوصيل في {n}؟", f"الأسعار تبدأ من دينارين (2 د.ك) وتزيد حسب المسافة بين منطقة الاستلام ومنطقة التسليم. نأكد لك السعر النهائي قبل الاستلام، والدفع كاش أو أونلاين."),
         ar["faq"],
+        *EXTRA[ar["slug"]][2],
         (f"شنو رقم مندوب توصيل {n}؟", "رقم Delivery.KW للطلب 99454818 (واتساب واتصال). أرسل منطقة الاستلام والتسليم ونرد عليك بالسعر ووقت الوصول."),
     ]
     ld = {"@type": "Service", "serviceType": "مندوب توصيل طلبات وأغراض", "name": f"مندوب توصيل {n} 24 ساعة",
@@ -509,6 +528,7 @@ for ar in AREAS:
 for kp in KEYWORD_PAGES:
     secs = "\n".join(prose_section(h2, blocks) for h2, blocks in kp["secs"])
     others = "".join(f'        <a href="/{o["slug"]}">{esc(o["card"])}</a>\n' for o in KEYWORD_PAGES if o is not kp)
+    area_links = "".join(f'        <a href="/{o["slug"]}">توصيل {esc(o["name"])}</a>\n' for o in AREAS)
     tail = section("طريقة الطلب", "ثلاث خطوات ويوصل طلبك", steps_html()) + f"""
   <section class="block flush">
     <div class="wrap">
@@ -516,6 +536,7 @@ for kp in KEYWORD_PAGES:
       <div class="plinks">
 {others}        <a href="/instagram-stores-delivery">توصيل متاجر انستجرام</a>
         <a href="/delivery-guide-kuwait">دليل اختيار مندوب توصيل</a>
+{area_links}
       </div>
     </div>
   </section>"""
@@ -628,9 +649,10 @@ open(os.path.join(ROOT, "admin.html"), "w", encoding="utf-8").write(adm)
 
 # sitemap
 UPDATED_SLUGS = {g["slug"] for g in GOVS} | {a["slug"] for a in AREAS} | {k["slug"] for k in KEYWORD_PAGES}
+NEW_SLUGS = {a["slug"] for a in AREAS} | {k["slug"] for k in KEYWORD_PAGES}
 urls = [("/", "1.0")] + [(f"/{s}", "0.8") for s in pages]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
-    f"  <url>\n    <loc>{SITE}{p}</loc>\n    <lastmod>{UPDATED if p == '/' or p.lstrip('/') in UPDATED_SLUGS else TODAY}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>{pr}</priority>\n  </url>\n"
+    f"  <url>\n    <loc>{SITE}{p}</loc>\n    <lastmod>{UPDATED_NEW if p.lstrip('/') in NEW_SLUGS else UPDATED if p == '/' or p.lstrip('/') in UPDATED_SLUGS else TODAY}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>{pr}</priority>\n  </url>\n"
     for p, pr in urls) + "</urlset>\n"
 open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write(sm)
 print("built", list(pages))
